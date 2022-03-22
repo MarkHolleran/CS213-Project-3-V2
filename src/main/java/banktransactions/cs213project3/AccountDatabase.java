@@ -244,6 +244,7 @@ public class AccountDatabase {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i<numAcct; i++){
             sb.append(this.accounts[i].toString());
+            sb.append("\n");
         }
         return sb.toString();
     }
