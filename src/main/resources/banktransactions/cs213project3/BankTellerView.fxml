@@ -60,14 +60,14 @@
                                         <RowConstraints maxHeight="55.333343505859375" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <RadioButton mnemonicParsing="false" selected="true" text="Checking">
+                                          <RadioButton mnemonicParsing="false" onMouseClicked="#openCloseCheckingSelected" selected="true" text="Checking">
                                              <toggleGroup>
                                                 <ToggleGroup fx:id="openCloseAccountType" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton mnemonicParsing="false" text="College Checking" toggleGroup="$openCloseAccountType" GridPane.columnIndex="1" />
-                                          <RadioButton mnemonicParsing="false" text="Savings" toggleGroup="$openCloseAccountType" GridPane.rowIndex="1" />
-                                          <RadioButton mnemonicParsing="false" text="Money Market" toggleGroup="$openCloseAccountType" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <RadioButton mnemonicParsing="false" onMouseClicked="#openCloseCollegeCheckingSelected" text="College Checking" toggleGroup="$openCloseAccountType" GridPane.columnIndex="1" />
+                                          <RadioButton mnemonicParsing="false" onMouseClicked="#openCloseSavingsSelected" text="Savings" toggleGroup="$openCloseAccountType" GridPane.rowIndex="1" />
+                                          <RadioButton mnemonicParsing="false" onMouseClicked="#openCloseMoneyMarketSelected" text="Money Market" toggleGroup="$openCloseAccountType" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                     <GridPane prefHeight="57.0" prefWidth="235.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
@@ -81,14 +81,14 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <RadioButton fx:id="openCloseNewark" mnemonicParsing="false" text="Newark" GridPane.rowIndex="1">
+                                          <RadioButton fx:id="openCloseNewark" disable="true" mnemonicParsing="false" text="Newark" GridPane.rowIndex="1">
                                              <toggleGroup>
                                                 <ToggleGroup fx:id="openCloseCampus" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="openCloseNB" mnemonicParsing="false" text="NB" toggleGroup="$openCloseCampus" />
-                                          <RadioButton fx:id="openCloseCamden" mnemonicParsing="false" text="Camden" toggleGroup="$openCloseCampus" GridPane.rowIndex="2" />
-                                          <CheckBox fx:id="openCloseLoyalCustomer" mnemonicParsing="false" text="Loyal Customer" GridPane.rowIndex="3" />
+                                          <RadioButton fx:id="openCloseNB" disable="true" mnemonicParsing="false" text="NB" toggleGroup="$openCloseCampus" />
+                                          <RadioButton fx:id="openCloseCamden" disable="true" mnemonicParsing="false" text="Camden" toggleGroup="$openCloseCampus" GridPane.rowIndex="2" />
+                                          <CheckBox fx:id="openCloseLoyalCustomer" disable="true" mnemonicParsing="false" text="Loyal Customer" GridPane.rowIndex="3" />
                                        </children>
                                     </GridPane>
                                     <GridPane GridPane.columnIndex="1" GridPane.rowIndex="5">

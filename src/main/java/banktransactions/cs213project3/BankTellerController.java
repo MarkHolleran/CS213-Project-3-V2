@@ -8,7 +8,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 public class BankTellerController {
@@ -40,7 +40,6 @@ public class BankTellerController {
         public static final int INDEX_OF_CAMDEN = 0;
         public static final int INDEX_OF_NEWARK = 1;
         public static final int INDEX_OF_NB = 2;
-
 
         @FXML
         private TextArea accountDatabaseOutput;
@@ -100,13 +99,80 @@ public class BankTellerController {
         @FXML
         private TextField openClosefirstName;
 
+
+        @FXML
+        void openCloseCheckingSelected(MouseEvent event) {
+
+                openCloseLoyalCustomer.setSelected(false);
+
+                openCloseNB.setSelected(false);
+                openCloseCamden.setSelected(false);
+                openCloseNewark.setSelected(false);
+
+                openCloseCamden.setDisable(true);
+                openCloseNewark.setDisable(true);
+                openCloseNB.setDisable(true);
+
+                openCloseLoyalCustomer.setDisable(true);
+
+                
+
+
+        }
+
+        @FXML
+        void openCloseCollegeCheckingSelected(MouseEvent event) {
+
+                openCloseLoyalCustomer.setSelected(false);
+
+                openCloseCamden.setDisable(false);
+                openCloseNewark.setDisable(false);
+                openCloseNB.setDisable(false);
+
+                openCloseLoyalCustomer.setDisable(true);
+
+        }
+
+        @FXML
+        void openCloseMoneyMarketSelected(MouseEvent event) {
+
+                openCloseNB.setSelected(false);
+                openCloseCamden.setSelected(false);
+                openCloseNewark.setSelected(false);
+
+                openCloseCamden.setDisable(true);
+                openCloseNewark.setDisable(true);
+                openCloseNB.setDisable(true);
+                openCloseLoyalCustomer.setSelected(true);
+                openCloseLoyalCustomer.setDisable(true);
+
+
+
+        }
+
+        @FXML
+        void openCloseSavingsSelected(MouseEvent event) {
+
+                openCloseLoyalCustomer.setSelected(false);
+
+                openCloseNB.setSelected(false);
+                openCloseCamden.setSelected(false);
+                openCloseNewark.setSelected(false);
+
+                openCloseCamden.setDisable(true);
+                openCloseNewark.setDisable(true);
+                openCloseNB.setDisable(true);
+                openCloseLoyalCustomer.setDisable(false);
+
+        }
+
         AccountDatabase database = new AccountDatabase();
 
         @FXML
         void applyFeesAndInterest(ActionEvent event) {
 
                 StringBuilder sb = new StringBuilder();
-                if(database.getNumAcct()==0){
+                if (database.getNumAcct() == 0) {
                         sb.append("Account Database is empty!\n");
                         return;
                         //t
@@ -118,7 +184,7 @@ public class BankTellerController {
                 sb.append("*end of list*\n");
                 sb.append("\n");
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.appendText(sb.toString());
 
         }
 
@@ -126,7 +192,7 @@ public class BankTellerController {
         void calculateFeesAndInterest(ActionEvent event) {
 
                 StringBuilder sb = new StringBuilder();
-                if(database.getNumAcct()==0){
+                if (database.getNumAcct() == 0) {
                         sb.append("Account Database is empty!\n");
                         return;
                 }
@@ -134,7 +200,7 @@ public class BankTellerController {
                 sb.append("*list of accounts with fee and monthly interest\n");
                 sb.append(database.printFeeAndInterest());
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.appendText(sb.toString());
 
         }
 
@@ -175,7 +241,7 @@ public class BankTellerController {
 
                 //need to figure out how to gray out buttons
 
-                if (openCloseAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected() == true){
+                if (openCloseAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected() == true) {
 
                         openCloseCamden.setDisable(true);
                         openCloseNewark.setDisable(true);
@@ -188,25 +254,25 @@ public class BankTellerController {
                         openCloseOutput.appendText("Account opened");
 
 
-                }else if (openCloseAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected() == true){
+                } else if (openCloseAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected() == true) {
 
                         openCloseLoyalCustomer.setDisable(true);
 
-                        if (openCloseCampus.getToggles().get(INDEX_OF_CAMDEN).isSelected() == true){
+                        if (openCloseCampus.getToggles().get(INDEX_OF_CAMDEN).isSelected() == true) {
 
                                 CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_CAMDEN);
                                 database.open(newCollegeChecking);
                                 openCloseOutput.setText("Account opened");
 
 
-                        }else if (openCloseCampus.getToggles().get(INDEX_OF_NEWARK).isSelected() == true){
+                        } else if (openCloseCampus.getToggles().get(INDEX_OF_NEWARK).isSelected() == true) {
 
                                 CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NEWARK);
                                 database.open(newCollegeChecking);
                                 openCloseOutput.setText("Account opened");
 
 
-                        }else {
+                        } else {
 
                                 CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NB);
                                 database.open(newCollegeChecking);
@@ -215,7 +281,7 @@ public class BankTellerController {
 
                         }
 
-                }else if (openCloseAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected() == true){
+                } else if (openCloseAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected() == true) {
                         //can have or not have loyalcustomer checked
 
                         openCloseLoyalCustomer.setSelected(false);
@@ -226,29 +292,27 @@ public class BankTellerController {
                         openCloseNewark.setDisable(true);
                         openCloseNB.setDisable(true);
 
-                        if (openCloseLoyalCustomer.isSelected() == false){
+                        if (openCloseLoyalCustomer.isSelected() == false) {
 
-                                Savings newSavings = new Savings(newProfile, initAccountAmount,NON_LOYAL_SAVINGS);
+                                Savings newSavings = new Savings(newProfile, initAccountAmount, NON_LOYAL_SAVINGS);
                                 //idk why nonloyal savings is 1 i thought it was 0?
                                 database.open(newSavings);
 
                                 openCloseOutput.setText("Account opened");
 
 
-                        }else{
-                                Savings newSavings = new Savings(newProfile, initAccountAmount,LOYAL_SAVINGS);
+                        } else {
+                                Savings newSavings = new Savings(newProfile, initAccountAmount, LOYAL_SAVINGS);
                                 database.open(newSavings);
                                 openCloseOutput.setText("Account opened");
                         }
 
 
-
-
-                }else if (openCloseAccountType.getToggles().get(INDEX_OF_MONEY_MARKET).isSelected() == true){
+                } else if (openCloseAccountType.getToggles().get(INDEX_OF_MONEY_MARKET).isSelected() == true) {
                         //loyal by default
                         openCloseLoyalCustomer.setSelected(true);
 
-                        if (openCloseLoyalCustomer.isSelected() == false){
+                        if (openCloseLoyalCustomer.isSelected() == false) {
 
                                 MoneyMarket newMoneyMarket = new MoneyMarket(newProfile, initAccountAmount);
                                 //if
@@ -259,7 +323,7 @@ public class BankTellerController {
                                 openCloseOutput.setText("Account opened");
 
 
-                        }else{
+                        } else {
 
                                 MoneyMarket newMoneyMarket = new MoneyMarket(newProfile, initAccountAmount);
 
@@ -273,14 +337,13 @@ public class BankTellerController {
                 }
 
 
-
         }
 
         @FXML
         void printAccountsByType(ActionEvent event) {
 
                 StringBuilder sb = new StringBuilder();
-                if(database.getNumAcct()==0){
+                if (database.getNumAcct() == 0) {
                         sb.append("Account Database is empty!\n");
                         return;
                 }
@@ -288,7 +351,7 @@ public class BankTellerController {
                 sb.append("*list of accounts by account type.\n");
                 sb.append(database.printByAccountType());
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.appendText(sb.toString());
 
         }
 
@@ -296,7 +359,7 @@ public class BankTellerController {
         void printAllAccounts(ActionEvent event) {
 
                 StringBuilder sb = new StringBuilder();
-                if(database.getNumAcct()==0){
+                if (database.getNumAcct() == 0) {
                         sb.append("Account Database is empty!\n");
                         return;
                 }
@@ -306,7 +369,7 @@ public class BankTellerController {
                 sb.append("*end of list*\n");
                 sb.append("\n");
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.appendText(sb.toString());
 
         }
 
