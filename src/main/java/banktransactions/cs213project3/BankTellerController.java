@@ -381,14 +381,6 @@ public class BankTellerController {
 
                                 double initAccountAmount = Double.parseDouble(openCloseInitialAccountAmount.getText());
 
-                                
-                                openCloseOutput.appendText("Missing data for closing an account.\n");
-
-
-
-
-
-
 
 
                         if (openCloseChecking.isSelected() == true){
