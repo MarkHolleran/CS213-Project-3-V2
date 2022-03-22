@@ -289,7 +289,7 @@ public class BankTellerController {
 
                                 database.open(newMoneyMarket);
 
-                                openCloseOutput.setText("Account opened");
+                                openCloseOutput.setText("Account opened\n");
 
 
                         }
@@ -315,6 +315,8 @@ public class BankTellerController {
                 openCloseNB.setDisable(true);
 
                 openCloseLoyalCustomer.setDisable(true);
+
+
 
 
 
