@@ -280,15 +280,41 @@ public class BankTellerController {
 
                 //String dbDate = depositWithdrawDob.getValue().toString();
 
-                Date newDate = new Date("3/21/2001");
+                String dbDate = depositWithdrawDob.getValue().toString();
+
+                Date newDate = new Date(dbDate);
                 //Date newDate = new Date(dbDate);
 
                 Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 
-                double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+
 
                 Account accot = createAccount(newProfile, depositWithdrawAccountType,0);
 
+                if(!database.findAcct(accot)){
+                        if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.");
+                        }else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.");
+                        }else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.");
+                        }else{
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.");
+                        }
+                }else{
+                        boolean initialDeposit = false;
+                        String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
+                        if(!balance.equals("Deposit - amount cannot be 0 or negative.") &&
+                                !balance.equals("Not a valid amount.")){
+                                double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+                                Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+                                database.deposit(acct);
+                                depositWithdrawOutput.setText("Deposit - balance updated.");
+                        }else{
+                                depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                        }
+                }
+                /*
                 if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
 
                         if(!database.findAcct(accot)){
@@ -363,6 +389,8 @@ public class BankTellerController {
                                 }
                         }
                 }
+
+                 */
                 //depositWithdrawOutput.setText("Not a valid amount.");
                 // we need different one
         }
