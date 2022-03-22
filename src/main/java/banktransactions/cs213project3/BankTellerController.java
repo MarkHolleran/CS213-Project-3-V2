@@ -109,6 +109,7 @@ public class BankTellerController {
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
                         return;
+                        //t
                 }
                 sb.append("\n");
                 sb.append("*list of accounts with updated balance\n");
