@@ -136,7 +136,7 @@ public class BankTellerController {
                 }
 
 
-                openCloseOutput.setText(sb.toString());
+                accountDatabaseOutput.setText(sb.toString());
 
         }
 
