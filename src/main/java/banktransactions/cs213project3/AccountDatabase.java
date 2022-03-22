@@ -124,14 +124,14 @@ public class AccountDatabase {
 
         for(int i = 0; i < numAcct; i++){
             if(accounts[i].getProfile().equals(account.getProfile())
-                    && account instanceof CollegeChecking
-                    && accounts[i] instanceof Checking && (!(accounts[i] instanceof CollegeChecking))){
+                && account instanceof CollegeChecking
+                && accounts[i] instanceof Checking && (!(accounts[i] instanceof CollegeChecking))){
                 return true;
             }
             if(accounts[i].getProfile().equals(account.getProfile())
-                    && account instanceof Checking
-                    && accounts[i] instanceof CollegeChecking
-                    && (!(account instanceof CollegeChecking))){
+                && account instanceof Checking
+                && accounts[i] instanceof CollegeChecking
+                && (!(account instanceof CollegeChecking))){
                 return true;
             }
         }
