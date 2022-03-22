@@ -122,19 +122,19 @@ public class AccountDatabase {
      */
     public boolean duplicateAccount(Account account){
 
-        for(int i = 0; i < numAcct; i++){
-            if(accounts[i].getProfile().equals(account.getProfile())
+            for(int i = 0; i < numAcct; i++){
+                if(accounts[i].getProfile().equals(account.getProfile())
                     && account instanceof CollegeChecking
                     && accounts[i] instanceof Checking && (!(accounts[i] instanceof CollegeChecking))){
-                return true;
+                    return true;
+                }
+                if(accounts[i].getProfile().equals(account.getProfile())
+                        && account instanceof Checking
+                        && accounts[i] instanceof CollegeChecking
+                        && (!(account instanceof CollegeChecking))){
+                    return true;
+                }
             }
-            if(accounts[i].getProfile().equals(account.getProfile())
-                    && account instanceof Checking
-                    && accounts[i] instanceof CollegeChecking
-                    && (!(account instanceof CollegeChecking))){
-                return true;
-            }
-        }
         return false;
     }
 
@@ -240,19 +240,16 @@ public class AccountDatabase {
     /**
      * Prints each Account object within the array
      */
-    public String print() {
-        StringBuilder sb = new StringBuilder();
+    public void print() {
         for(int i = 0; i<numAcct; i++){
-            sb.append(this.accounts[i].toString());
+            System.out.println(this.accounts[i].toString());
         }
-        return sb.toString();
     }
 
     /**
      * Prints each Account object within an array in order of Account type
      */
-    public String printByAccountType() {
-        StringBuilder sb = new StringBuilder();
+    public void printByAccountType() {
         int n = numAcct;
 
         for(int i = 0; i < n; ++i){
@@ -266,11 +263,10 @@ public class AccountDatabase {
             accounts[j + 1] = key;
         }
 
-        sb.append(print());
+        print();
 
-        sb.append("*end of list.\n");
-        sb.append("\n");
-        return sb.toString();
+        System.out.println("*end of list.");
+        System.out.println();
     }
 
     /**
@@ -287,21 +283,18 @@ public class AccountDatabase {
     /**
      * Prints each Account object in the array after fees are subtracted from the balance
      */
-    public String printFeeAndInterest() {
-
-        StringBuilder outer = new StringBuilder();
+    public void printFeeAndInterest() {
 
         for(int i = 0; i < numAcct; i++){
             DecimalFormat dformat = new DecimalFormat("#,##0.00");
             DecimalFormat dformat2 = new DecimalFormat("#,##0.00");
             StringBuilder sb = new StringBuilder(accounts[i].toString());
             sb.append("::fee $" + dformat.format(accounts[i].fee())
-                    + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest()));
-            outer.append(sb);
+                + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest()));
+            System.out.println(sb);
         }
-        outer.append("*end of list.\n");
-        outer.append("\n");
-        return outer.toString();
+        System.out.println("*end of list.");
+        System.out.println();
     }
 
 }
