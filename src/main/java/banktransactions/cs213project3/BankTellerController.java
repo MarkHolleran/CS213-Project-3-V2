@@ -105,10 +105,35 @@ public class BankTellerController {
         @FXML
         void applyFeesAndInterest(ActionEvent event) {
 
+                StringBuilder sb = new StringBuilder();
+                if(database.getNumAcct()==0){
+                        sb.append("Account Database is empty!\n");
+                        return;
+                }
+                sb.append("\n");
+                sb.append("*list of accounts with updated balance\n");
+                database.calculate();
+                sb.append(database.print());
+                sb.append("*end of list*\n");
+                sb.append("\n");
+
+                printResult.appendText(sb.toString());
+
         }
 
         @FXML
         void calculateFeesAndInterest(ActionEvent event) {
+
+                StringBuilder sb = new StringBuilder();
+                if(database.getNumAcct()==0){
+                        sb.append("Account Database is empty!\n");
+                        return;
+                }
+                sb.append("\n");
+                sb.append("*list of accounts with fee and monthly interest\n");
+                sb.append(database.printFeeAndInterest());
+
+                printResult.appendText(sb.toString());
 
         }
 
@@ -253,10 +278,34 @@ public class BankTellerController {
         @FXML
         void printAccountsByType(ActionEvent event) {
 
+                StringBuilder sb = new StringBuilder();
+                if(database.getNumAcct()==0){
+                        sb.append("Account Database is empty!\n");
+                        return;
+                }
+                sb.append("\n");
+                sb.append("*list of accounts by account type.\n");
+                sb.append(database.printByAccountType());
+
+                printResult.appendText(sb.toString());
+
         }
 
         @FXML
         void printAllAccounts(ActionEvent event) {
+
+                StringBuilder sb = new StringBuilder();
+                if(database.getNumAcct()==0){
+                        sb.append("Account Database is empty!\n");
+                        return;
+                }
+                sb.append("\n");
+                sb.append("*list of accounts in the database*\n");
+                sb.append(database.print());
+                sb.append("*end of list*\n");
+                sb.append("\n");
+
+                printResult.appendText(sb.toString());
 
         }
 
