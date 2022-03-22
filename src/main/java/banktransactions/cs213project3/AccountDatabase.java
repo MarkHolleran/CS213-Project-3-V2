@@ -240,16 +240,19 @@ public class AccountDatabase {
     /**
      * Prints each Account object within the array
      */
-    public void print() {
+    public String print() {
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i<numAcct; i++){
-            System.out.println(this.accounts[i].toString());
+            sb.append(this.accounts[i].toString());
         }
+        return sb.toString();
     }
 
     /**
      * Prints each Account object within an array in order of Account type
      */
-    public void printByAccountType() {
+    public String printByAccountType() {
+        StringBuilder sb = new StringBuilder();
         int n = numAcct;
 
         for(int i = 0; i < n; ++i){
@@ -263,10 +266,11 @@ public class AccountDatabase {
             accounts[j + 1] = key;
         }
 
-        print();
+        sb.append(print());
 
-        System.out.println("*end of list.");
-        System.out.println();
+        sb.append("*end of list.\n");
+        sb.append("\n");
+        return sb.toString();
     }
 
     /**
@@ -283,7 +287,9 @@ public class AccountDatabase {
     /**
      * Prints each Account object in the array after fees are subtracted from the balance
      */
-    public void printFeeAndInterest() {
+    public String printFeeAndInterest() {
+
+        StringBuilder outer = new StringBuilder();
 
         for(int i = 0; i < numAcct; i++){
             DecimalFormat dformat = new DecimalFormat("#,##0.00");
@@ -291,10 +297,11 @@ public class AccountDatabase {
             StringBuilder sb = new StringBuilder(accounts[i].toString());
             sb.append("::fee $" + dformat.format(accounts[i].fee())
                 + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest()));
-            System.out.println(sb);
+            outer.append(sb);
         }
-        System.out.println("*end of list.");
-        System.out.println();
+        outer.append("*end of list.\n");
+        outer.append("\n");
+        return outer.toString();
     }
 
 }

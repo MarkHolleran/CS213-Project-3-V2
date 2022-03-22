@@ -118,7 +118,7 @@ public class BankTellerController {
                 sb.append("*end of list*\n");
                 sb.append("\n");
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.setText(sb.toString());
 
         }
 
@@ -134,7 +134,7 @@ public class BankTellerController {
                 sb.append("*list of accounts with fee and monthly interest\n");
                 sb.append(database.printFeeAndInterest());
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.setText(sb.toString());
 
         }
 
@@ -288,12 +288,13 @@ public class BankTellerController {
                 sb.append("*list of accounts by account type.\n");
                 sb.append(database.printByAccountType());
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.setText(sb.toString());
 
         }
 
         @FXML
         void printAllAccounts(ActionEvent event) {
+
 
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
@@ -306,7 +307,7 @@ public class BankTellerController {
                 sb.append("*end of list*\n");
                 sb.append("\n");
 
-                printResult.appendText(sb.toString());
+                openCloseOutput.setText(sb.toString());
 
         }
 
