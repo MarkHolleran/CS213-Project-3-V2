@@ -183,10 +183,7 @@ public class BankTellerController {
         }
 
 
-        @FXML
-        void depositAmount(ActionEvent event) {
 
-        }
 
         /**
          * Creates an account based on the account type given a profile and balance
@@ -274,7 +271,7 @@ public class BankTellerController {
                 }
         }
 
-        
+
         @FXML
         void depositAmount(ActionEvent event) {
 
@@ -567,6 +564,8 @@ public class BankTellerController {
 
         @FXML
         void withdrawAmount(ActionEvent event) {
+                
+        }
 
 
 }
