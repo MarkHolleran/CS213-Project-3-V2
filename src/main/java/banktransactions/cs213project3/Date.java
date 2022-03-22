@@ -72,9 +72,19 @@ import java.util.Calendar;
 
             String dateFromInput = date;
 
-            this.month = Integer.parseInt(dateFromInput.substring(0, dateFromInput.indexOf("/")));
-            this.day = Integer.parseInt(dateFromInput.substring(dateFromInput.indexOf("/")+1,dateFromInput.lastIndexOf("/")));
-            this.year = Integer.parseInt(dateFromInput.substring(dateFromInput.lastIndexOf("/")+1,dateFromInput.length()));
+            //if we want 4/21/1999
+            //it prints as 1999-04-21
+
+
+
+
+
+            this.day = Integer.parseInt(dateFromInput.substring(dateFromInput.lastIndexOf("-")+1, dateFromInput.length()));
+
+            this.month = Integer.parseInt(dateFromInput.substring(dateFromInput.indexOf("-")+1,dateFromInput.lastIndexOf("-")));
+
+            this.year = Integer.parseInt(dateFromInput.substring(0, dateFromInput.indexOf("-")));
+
 
         }
 
