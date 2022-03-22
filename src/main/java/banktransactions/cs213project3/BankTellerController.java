@@ -1,14 +1,16 @@
 package banktransactions.cs213project3;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 public class BankTellerController {
@@ -103,24 +105,23 @@ public class BankTellerController {
         AccountDatabase database = new AccountDatabase();
 
         @FXML
-        void applyFeesAndInterest(ActionEvent event) {
+        void printAllAccounts(ActionEvent event) {
 
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
-                        //t
-                }
-                sb.append("\n");
-                sb.append("*list of accounts with updated balance\n");
-                database.calculate();
-                sb.append(database.print());
-                sb.append("*end of list*\n");
-                sb.append("\n");
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts in the database*\n");
+                        sb.append(database.print());
+                        sb.append("*end of list*\n");
+                        sb.append("\n");
 
-                printResult.appendText(sb.toString());
+                }
+                accountDatabaseOutput.setText(sb.toString());
 
         }
+
 
         @FXML
         void calculateFeesAndInterest(ActionEvent event) {
@@ -128,15 +129,38 @@ public class BankTellerController {
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts with fee and monthly interest\n");
+                        sb.append(database.printFeeAndInterest());
                 }
-                sb.append("\n");
-                sb.append("*list of accounts with fee and monthly interest\n");
-                sb.append(database.printFeeAndInterest());
 
-                printResult.appendText(sb.toString());
+
+                openCloseOutput.setText(sb.toString());
 
         }
+
+        @FXML
+        void applyFeesAndInterest(ActionEvent event) {
+
+                StringBuilder sb = new StringBuilder();
+                if(database.getNumAcct()==0){
+                        sb.append("Account Database is empty!\n");
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts with updated balance\n");
+                        database.calculate();
+                        sb.append(database.print());
+                        sb.append("*end of list*\n");
+                        sb.append("\n");
+                }
+
+
+                accountDatabaseOutput.setText(sb.toString());
+
+        }
+
+
 
         @FXML
         void closeAccount(ActionEvent event) {
@@ -276,39 +300,92 @@ public class BankTellerController {
 
         }
 
+
+        @FXML
+        void openCloseCheckingSelected(MouseEvent event) {
+
+                openCloseLoyalCustomer.setSelected(false);
+
+                openCloseNB.setSelected(false);
+                openCloseCamden.setSelected(false);
+                openCloseNewark.setSelected(false);
+
+                openCloseCamden.setDisable(true);
+                openCloseNewark.setDisable(true);
+                openCloseNB.setDisable(true);
+
+                openCloseLoyalCustomer.setDisable(true);
+
+
+
+
+        }
+
+        @FXML
+        void openCloseCollegeCheckingSelected(MouseEvent event) {
+
+                openCloseLoyalCustomer.setSelected(false);
+
+                openCloseCamden.setDisable(false);
+                openCloseNewark.setDisable(false);
+                openCloseNB.setDisable(false);
+
+                openCloseLoyalCustomer.setDisable(true);
+
+        }
+
+        @FXML
+        void openCloseMoneyMarketSelected(MouseEvent event) {
+
+                openCloseNB.setSelected(false);
+                openCloseCamden.setSelected(false);
+                openCloseNewark.setSelected(false);
+
+                openCloseCamden.setDisable(true);
+                openCloseNewark.setDisable(true);
+                openCloseNB.setDisable(true);
+                openCloseLoyalCustomer.setSelected(true);
+                openCloseLoyalCustomer.setDisable(true);
+
+
+
+        }
+
+        @FXML
+        void openCloseSavingsSelected(MouseEvent event) {
+
+                openCloseLoyalCustomer.setSelected(false);
+
+                openCloseNB.setSelected(false);
+                openCloseCamden.setSelected(false);
+                openCloseNewark.setSelected(false);
+
+                openCloseCamden.setDisable(true);
+                openCloseNewark.setDisable(true);
+                openCloseNB.setDisable(true);
+                openCloseLoyalCustomer.setDisable(false);
+
+        }
+
+
         @FXML
         void printAccountsByType(ActionEvent event) {
 
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts by account type.\n");
+                        sb.append(database.printByAccountType());
                 }
-                sb.append("\n");
-                sb.append("*list of accounts by account type.\n");
-                sb.append(database.printByAccountType());
 
-                printResult.appendText(sb.toString());
+
+                accountDatabaseOutput.setText(sb.toString());
 
         }
 
-        @FXML
-        void printAllAccounts(ActionEvent event) {
 
-                StringBuilder sb = new StringBuilder();
-                if(database.getNumAcct()==0){
-                        sb.append("Account Database is empty!\n");
-                        return;
-                }
-                sb.append("\n");
-                sb.append("*list of accounts in the database*\n");
-                sb.append(database.print());
-                sb.append("*end of list*\n");
-                sb.append("\n");
-
-                printResult.appendText(sb.toString());
-
-        }
 
         @FXML
         void withdrawAmount(ActionEvent event) {
