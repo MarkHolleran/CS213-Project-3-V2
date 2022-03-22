@@ -20,6 +20,7 @@ public class MoneyMarket extends Savings {
     public static final int DEFAULT_LOYALTY = 1;
     public int withdrawCount = 0;
     public static final int MAX_WITHDRAW_LIMIT = 3;
+    public static final int loyalDeleteString = 7;
 
     public final double BALANCE_IF_WAIVED = 2500;
     public static final String ACCOUNT_TYPE = "Money Market Savings";
@@ -126,12 +127,12 @@ public class MoneyMarket extends Savings {
     @Override
     public double fee(){
 
-        if (withdrawCount < MAX_WITHDRAW_LIMIT && balance >= 2500){
+        if (withdrawCount < MAX_WITHDRAW_LIMIT && balance >= BALANCE_IF_WAIVED){
         // wording is confusing here
             return NO_FEE;
 
         }else {
-            //(this.balance >= BALANCE_IF_WAIVED && withdrawCount > 3)
+
             return MONTHLY_FEE;
 
         }
@@ -159,7 +160,7 @@ public class MoneyMarket extends Savings {
         StringBuilder sb = new StringBuilder(super.toString());
 
         if(super.toString().contains("::Loyal") && loyalCustomer == 0){
-            sb.delete(sb.length()-7,sb.length());
+            sb.delete(sb.length()-loyalDeleteString,sb.length());
 
         }else{
             return super.toString() + "::withdrawl: " + withdrawCount;

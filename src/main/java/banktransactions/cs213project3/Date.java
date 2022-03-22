@@ -44,6 +44,11 @@ import java.util.Calendar;
         public static final int MAX_DAYS_FOR_APRIL_JUNE_SEPTEMBER_NOVEMBER = 30;
         public static final int MAX_DAYS_FOR_MAY_DECEMBER_OCTOBER_JULY_AUGUST_MARCH_JANUARY = 31;
 
+        public static final int leapYearFirstCheckMod = 4;
+        public static final int leapYearSecondCheckMod = 100;
+        public static final int leapYearThirdCheckMod = 400;
+
+
         /**
          * Creates a Date object with today's date
          * Using Java's Calendar Library an instance of
@@ -236,11 +241,11 @@ import java.util.Calendar;
 
             int isYearValid = year;
 
-            if (isYearValid % 4 == 0) {
+            if (isYearValid % leapYearFirstCheckMod == 0) {
 
-                if (isYearValid % 100 == 0) {
+                if (isYearValid % leapYearSecondCheckMod == 0) {
 
-                    if (isYearValid % 400 == 0) {
+                    if (isYearValid % leapYearThirdCheckMod == 0) {
 
                         return true;
 
