@@ -299,7 +299,6 @@ public class AccountDatabase {
             sb.append("::fee $" + dformat.format(accounts[i].fee())
                     + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest()));
             outer.append(sb);
-            outer.append("\n");
         }
         outer.append("*end of list.\n");
         outer.append("\n");
