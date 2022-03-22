@@ -70,6 +70,9 @@ public class BankTellerController {
         private ToggleGroup openCloseAccountType;
 
         @FXML
+        private ToggleGroup openCloseRadioButtons;
+
+        @FXML
         private RadioButton openCloseCamden;
 
 
