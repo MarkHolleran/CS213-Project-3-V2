@@ -277,11 +277,9 @@ public class BankTellerController {
 
         @FXML
         void depositAmount(ActionEvent event) {
+                String dbDate = depositWithdrawDob.getValue().toString();
 
-                //String dbDate = depositWithdrawDob.getValue().toString();
-
-                Date newDate = new Date("3/21/2001");
-                //Date newDate = new Date(dbDate);
+                Date newDate = new Date(dbDate);
 
                 Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 
@@ -375,17 +373,22 @@ public class BankTellerController {
 
 
 
-                        String dbDate = openCloseDob.getValue().toString();
+                                String dbDate = openCloseDob.getValue().toString();
 
-                        Date newDate = new Date(dbDate);
+                                Date newDate = new Date(dbDate);
+
+                                Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
+
+                                double initAccountAmount = Double.parseDouble(openCloseInitialAccountAmount.getText());
+
+                                
+                                openCloseOutput.appendText("Missing data for closing an account.\n");
 
 
 
 
 
-                        Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
 
-                        double initAccountAmount = Double.parseDouble(openCloseInitialAccountAmount.getText());
 
 
                         if (openCloseChecking.isSelected() == true){
@@ -394,30 +397,22 @@ public class BankTellerController {
 
                                 database.open(newChecking);
 
-
                         }else if (openCloseCollegeChecking.isSelected() == true){
-
 
                                 if (openCloseCamden.isSelected() == true){
 
                                         CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_CAMDEN);
                                         database.open(newCollegeChecking);
 
-
-
                                 }else if (openCloseNewark.isSelected() == true){
 
                                         CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NEWARK);
                                         database.open(newCollegeChecking);
 
-
                                 }else if (openCloseNB.isSelected() == true){
 
                                         CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NB);
                                         database.open(newCollegeChecking);
-
-
-                                }else{
 
                                 }
 
@@ -457,24 +452,46 @@ public class BankTellerController {
 
                         }
 
+                }else if (closeAccount.isSelected() == true){
+
+                        String dbDate = openCloseDob.getValue().toString();
+
+                        Date newDate = new Date(dbDate);
+
+                        Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
+
+                        try {
+
+                                Account acct = createAccount(newProfile, openCloseAccountType, 0);
+
+                                if(database.find(acct) != NOT_FOUND){
+                                        int index = database.find(acct);
+
+                                        if(database.alreadyClosed(index)){
+                                                database.close(acct);
+                                                openCloseOutput.appendText("Account is closed already.\n");
+                                        }else{
+                                                database.close(acct);
+                                                openCloseOutput.appendText("Account closed.\n");
+                                        }
+                                }
 
 
-
-                }
-
-                if (closeAccount.isSelected() == true){
-
-
-
+                        } catch (Exception e) {
+                                openCloseOutput.appendText("Missing data for closing an account.\n");
+                        }
+                } else {
+                        openCloseOutput.appendText("Missing data for closing an account.\n");
                 }
 
         }
+
+
 
         @FXML
         void openAccountClicked(MouseEvent event) {
 
                 openCloseInitialAccountAmount.setDisable(false);
-
 
         }
 
@@ -482,7 +499,6 @@ public class BankTellerController {
         void closeAccountClicked(MouseEvent event) {
 
                 openCloseInitialAccountAmount.setDisable(true);
-
 
         }
 
