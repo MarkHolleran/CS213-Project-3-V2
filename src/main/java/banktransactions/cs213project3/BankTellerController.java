@@ -2,12 +2,7 @@ package banktransactions.cs213project3;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -46,7 +41,7 @@ public class BankTellerController {
         private TextArea accountDatabaseOutput;
 
         @FXML
-        private HBox cheese;
+        private HBox cheese; //lol
 
         @FXML
         private ToggleGroup depositWithdrawAccountType;
@@ -100,6 +95,10 @@ public class BankTellerController {
         @FXML
         private TextField openClosefirstName;
 
+        @FXML
+        private Button printAllAccounts;
+
+
         AccountDatabase database = new AccountDatabase();
 
         @FXML
@@ -108,17 +107,17 @@ public class BankTellerController {
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
-                        //t
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts with updated balance\n");
+                        database.calculate();
+                        sb.append(database.print());
+                        sb.append("*end of list*\n");
+                        sb.append("\n");
                 }
-                sb.append("\n");
-                sb.append("*list of accounts with updated balance\n");
-                database.calculate();
-                sb.append(database.print());
-                sb.append("*end of list*\n");
-                sb.append("\n");
 
-                openCloseOutput.setText(sb.toString());
+
+                accountDatabaseOutput.setText(sb.toString());
 
         }
 
@@ -128,11 +127,12 @@ public class BankTellerController {
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts with fee and monthly interest\n");
+                        sb.append(database.printFeeAndInterest());
                 }
-                sb.append("\n");
-                sb.append("*list of accounts with fee and monthly interest\n");
-                sb.append(database.printFeeAndInterest());
+
 
                 openCloseOutput.setText(sb.toString());
 
@@ -282,32 +282,33 @@ public class BankTellerController {
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts by account type.\n");
+                        sb.append(database.printByAccountType());
                 }
-                sb.append("\n");
-                sb.append("*list of accounts by account type.\n");
-                sb.append(database.printByAccountType());
 
-                openCloseOutput.setText(sb.toString());
+
+                accountDatabaseOutput.setText(sb.toString());
 
         }
 
         @FXML
         void printAllAccounts(ActionEvent event) {
 
-
                 StringBuilder sb = new StringBuilder();
                 if(database.getNumAcct()==0){
                         sb.append("Account Database is empty!\n");
-                        return;
-                }
-                sb.append("\n");
-                sb.append("*list of accounts in the database*\n");
-                sb.append(database.print());
-                sb.append("*end of list*\n");
-                sb.append("\n");
+                }else{
+                        sb.append("\n");
+                        sb.append("*list of accounts in the database*\n");
+                        sb.append(database.print());
+                        sb.append("*end of list*\n");
+                        sb.append("\n");
 
-                openCloseOutput.setText(sb.toString());
+                }
+                accountDatabaseOutput.setText(sb.toString());
+
 
         }
 
