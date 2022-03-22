@@ -167,10 +167,185 @@ public class BankTellerController {
 
         }
 
+        /**
+         * Creates an account based on the account type given a profile and balance
+         *
+         * @param profile Profile object that holds first name, last name, and date of birth
+         * @param type String from user input to identify what type of account is being selected
+         * @param balance Double value representing account balance
+         *
+         * @return an Account of either type Checking, College Checking, Savings, or Money Market
+         */
+        private Account createAccount(Profile profile, ToggleGroup type, double balance){
+
+                if(depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+                        return new Checking(profile,balance);
+                }
+                if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
+                        return new CollegeChecking(profile,balance,0);
+                }
+                if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+                        return new Savings(profile,balance,0);
+                }
+                if(depositWithdrawAccountType.getToggles().get(INDEX_OF_MONEY_MARKET).isSelected()){
+                        return new MoneyMarket(profile,balance);
+                }
+                return null;
+        }
+
+        /**
+         * Verifies that the deposit from user input is a positive double
+         *
+         * If the deposit is invalid, the respective error message is printed
+         *
+         * @param deposit String from String Tokenizer potentially containing a proper deposit
+         * @param initial boolean to signify if this is the account's initial deposit
+         *
+         * @return String value of the deposit if valid, invalid_deposit otherwise
+         */
+        private String validDeposit(String deposit, boolean initial){
+                StringBuilder sb = new StringBuilder();
+                double balance;
+                try{
+                        balance = Double.parseDouble(deposit);
+                        if(balance <= 0){
+                                if(initial){
+                                        sb.append("Initial deposit cannot be 0 or negative.");
+                                }else{
+                                        sb.append("Deposit - amount cannot be 0 or negative.");
+                                }
+                                //return INVALID_DEPOSIT_OR_WITHDRAWAL;
+                                return sb.toString();
+                        }else{
+                                return deposit;
+                        }
+                }catch(Exception e) {
+                        sb.append("Not a valid amount.");
+                        //return INVALID_DEPOSIT_OR_WITHDRAWAL;
+                        return sb.toString();
+                }
+        }
+
+        /**
+         * Verifies that the requested withdrawal from user input is a positive double
+         *
+         * If the withdrawal is invalid, the respective error message is printed
+         *
+         * @param deposit String from String Tokenizer potentially containing a proper withdrawal
+         *
+         * @return String value of the withdrawal if valid, invalid_deposit otherwise
+         */
+        private String validWithdraw(String deposit){
+                StringBuilder sb = new StringBuilder();
+                double balance;
+                try{
+                        balance = Double.parseDouble(deposit);
+                        if(balance <= 0){
+                                sb.append("Withdraw - amount cannot be 0 or negative.");
+                                //return INVALID_DEPOSIT_OR_WITHDRAWAL;
+                                return sb.toString();
+                        }else{
+                                return deposit;
+                        }
+                }catch(Exception e) {
+                        sb.append("Not a valid amount.");
+                        return sb.toString();
+                }
+        }
+
+        
         @FXML
         void depositAmount(ActionEvent event) {
 
+                //String dbDate = depositWithdrawDob.getValue().toString();
+
+                Date newDate = new Date("3/21/2001");
+                //Date newDate = new Date(dbDate);
+
+                Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
+
+                double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+
+                Account accot = createAccount(newProfile, depositWithdrawAccountType,0);
+
+                if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+
+                        if(!database.findAcct(accot)){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.");
+                        }else{
+                                boolean initialDeposit = false;
+
+                                if(!validDeposit(depositWithdrawAmount.getText(),
+                                        initialDeposit).equals("Deposit - amount cannot be 0 or negative.") ||
+                                        !validDeposit(depositWithdrawAmount.getText(),
+                                        initialDeposit).equals("Not a valid amount.")){
+                                        Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+                                        database.deposit(acct);
+                                        depositWithdrawOutput.setText("Deposit - balance updated.");
+                                }else{
+                                        depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                                }
+                        }
+
+                }else if (depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
+
+                        if(!database.findAcct(accot)){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.");
+                        }else{
+                                boolean initialDeposit = false;
+
+                                if(!validDeposit(depositWithdrawAmount.getText(),
+                                        initialDeposit).equals("Deposit - amount cannot be 0 or negative.") ||
+                                        !validDeposit(depositWithdrawAmount.getText(),
+                                                initialDeposit).equals("Not a valid amount.")){
+                                        Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+                                        database.deposit(acct);
+                                        depositWithdrawOutput.setText("Deposit - balance updated.");
+                                }else{
+                                        depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                                }
+                        }
+                }else if (depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+
+                        if(!database.findAcct(accot)){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.");
+                        }else{
+                                boolean initialDeposit = false;
+
+                                if(!validDeposit(depositWithdrawAmount.getText(),
+                                        initialDeposit).equals("Deposit - amount cannot be 0 or negative.") ||
+                                        !validDeposit(depositWithdrawAmount.getText(),
+                                                initialDeposit).equals("Not a valid amount.")){
+                                        Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+                                        database.deposit(acct);
+                                        depositWithdrawOutput.setText("Deposit - balance updated.");
+                                }else{
+                                        depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                                }
+                        }
+                }else if (depositWithdrawAccountType.getToggles().get(INDEX_OF_MONEY_MARKET).isSelected()){
+
+                        if(!database.findAcct(accot)){
+                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.");
+                        }else{
+                                boolean initialDeposit = false;
+
+                                if(!validDeposit(depositWithdrawAmount.getText(),
+                                        initialDeposit).equals("Deposit - amount cannot be 0 or negative.") ||
+                                        !validDeposit(depositWithdrawAmount.getText(),
+                                                initialDeposit).equals("Not a valid amount.")){
+                                        Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+                                        database.deposit(acct);
+                                        depositWithdrawOutput.setText("Deposit - balance updated.");
+                                }else{
+                                        depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                                }
+                        }
+                }
+                //depositWithdrawOutput.setText("Not a valid amount.");
+                // we need different one
         }
+
 
         @FXML
         void openAccount(ActionEvent event) {
@@ -207,7 +382,6 @@ public class BankTellerController {
                         openCloseLoyalCustomer.setDisable(true);
 
                         Checking newChecking = new Checking(newProfile, initAccountAmount);
-
                         database.open(newChecking);
                         openCloseOutput.appendText("Account opened");
 
@@ -387,9 +561,6 @@ public class BankTellerController {
 
 
 
-        @FXML
-        void withdrawAmount(ActionEvent event) {
 
-        }
 
 }
