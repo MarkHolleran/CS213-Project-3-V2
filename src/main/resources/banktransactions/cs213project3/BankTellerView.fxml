@@ -101,8 +101,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button fx:id="openCloseAccountButton" mnemonicParsing="false" onAction="#openCloseAccountClicked" prefHeight="25.0" prefWidth="83.0" text="Submit" GridPane.columnIndex="2" />
-                                          <RadioButton fx:id="openAccount" mnemonicParsing="false" onMouseClicked="#openAccountClicked" selected="true" text="Open">
+                                          <Button mnemonicParsing="false" onAction="#openCloseAccount" prefHeight="25.0" prefWidth="83.0" text="Submit" GridPane.columnIndex="2" />
+                                          <RadioButton fx:id="openAccount" mnemonicParsing="false" onMouseClicked="#openAccountClicked" text="Open">
                                              <toggleGroup>
                                                 <ToggleGroup fx:id="openCloseRadioButtons" />
                                              </toggleGroup>
@@ -156,14 +156,14 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                          <RadioButton fx:id="depositWithdrawChecking" mnemonicParsing="false" selected="true" text="Checking">
+                                          <RadioButton mnemonicParsing="false" selected="true" text="Checking">
                                              <toggleGroup>
                                                 <ToggleGroup fx:id="depositWithdrawAccountType" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="depositWithdrawCollegeChecking" mnemonicParsing="false" text="College Checking" toggleGroup="$depositWithdrawAccountType" GridPane.columnIndex="1" />
-                                          <RadioButton fx:id="depositWithdrawSavings" mnemonicParsing="false" text="Savings" toggleGroup="$depositWithdrawAccountType" GridPane.rowIndex="1" />
-                                          <RadioButton fx:id="depositWithdrawMoneyMarket" mnemonicParsing="false" text="Money Market" toggleGroup="$depositWithdrawAccountType" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <RadioButton mnemonicParsing="false" text="College Checking" toggleGroup="$depositWithdrawAccountType" GridPane.columnIndex="1" />
+                                          <RadioButton mnemonicParsing="false" text="Savings" toggleGroup="$depositWithdrawAccountType" GridPane.rowIndex="1" />
+                                          <RadioButton mnemonicParsing="false" text="Money Market" toggleGroup="$depositWithdrawAccountType" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                        </children>
                                     </GridPane>
                                     <GridPane GridPane.columnIndex="2" GridPane.rowIndex="3">
