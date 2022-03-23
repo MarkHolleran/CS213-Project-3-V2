@@ -127,7 +127,7 @@ public class BankTellerController {
 			sb.append("*end of list*\n");
 			sb.append("\n");
 		}
-		accountDatabaseOutput.setText(sb.toString());
+		accountDatabaseOutput.appendText(sb.toString());
 	}
 
 
@@ -141,7 +141,7 @@ public class BankTellerController {
 			sb.append("*list of accounts with fee and monthly interest\n");
 			sb.append(database.printFeeAndInterest());
 		}
-		accountDatabaseOutput.setText(sb.toString());
+		accountDatabaseOutput.appendText(sb.toString());
 	}
 
 	@FXML
@@ -157,7 +157,7 @@ public class BankTellerController {
 			sb.append("*end of list*\n");
 			sb.append("\n");
 		}
-		accountDatabaseOutput.setText(sb.toString());
+		accountDatabaseOutput.appendText(sb.toString());
 	}
 
 
@@ -253,19 +253,19 @@ public class BankTellerController {
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
 			if(!newDate.isValid()){
-				openCloseOutput.setText("Date of birth invalid.");
+				openCloseOutput.appendText("Date of birth invalid.");
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
 				if(!database.findAcct(account)){
 					if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
 					}else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
 					}else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
 					}else{
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
 					}
 				}else{
 					String balance = validWithdraw(depositWithdrawAmount.getText());
@@ -274,17 +274,17 @@ public class BankTellerController {
 						Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
 
 						if(database.withdraw(acct)){
-							depositWithdrawOutput.setText("Withdraw - balance updated.\n");
+							depositWithdrawOutput.appendText("Withdraw - balance updated.\n");
 						}else{
-							depositWithdrawOutput.setText("Withdraw - insufficient fund.\n");
+							depositWithdrawOutput.appendText("Withdraw - insufficient fund.\n");
 						}
 					}else{
-						depositWithdrawOutput.setText(validWithdraw(depositWithdrawAmount.getText()));
+						depositWithdrawOutput.appendText(validWithdraw(depositWithdrawAmount.getText()));
 					}
 				}
 			}
 		}catch(Exception e){
-			depositWithdrawOutput.setText("Missing data for withdrawing from an account.\n");
+			depositWithdrawOutput.appendText("Missing data for withdrawing from an account.\n");
 		}
 	}
 
@@ -295,19 +295,19 @@ public class BankTellerController {
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
 			if(!newDate.isValid()){
-				openCloseOutput.setText("Date of birth invalid.");
+				openCloseOutput.appendText("Date of birth invalid.");
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
 				if(!database.findAcct(account)){
 					if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
 					}else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
 					}else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
 					}else{
-						depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
+						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
 					}
 				}else{
 					boolean initialDeposit = false;
@@ -316,14 +316,14 @@ public class BankTellerController {
 						double deposit = Double.parseDouble(depositWithdrawAmount.getText());
 						Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
 						database.deposit(acct);
-						depositWithdrawOutput.setText("Deposit - balance updated.\n");
+						depositWithdrawOutput.appendText("Deposit - balance updated.\n");
 					}else{
-						depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+						depositWithdrawOutput.appendText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
 					}
 				}
 			}
 		}catch(Exception e){
-			depositWithdrawOutput.setText("Missing data for depositing to an account.\n");
+			depositWithdrawOutput.appendText("Missing data for depositing to an account.\n");
 		}
 	}
 /*
@@ -375,10 +375,10 @@ public class BankTellerController {
 		if(database.getAccount(checking).closed){
 			checking.closed = true;
 			database.open(checking);
-			openCloseOutput.setText("Account reopened.\n");
+			openCloseOutput.appendText("Account reopened.\n");
 		}else{
 			checking.closed = false;
-			openCloseOutput.setText(profile.toString() + " same account(type) is in the database.\n");
+			openCloseOutput.appendText(profile.toString() + " same account(type) is in the database.\n");
 		}
 	}
 
@@ -394,14 +394,14 @@ public class BankTellerController {
 		StringBuilder sb = new StringBuilder();
 		try{
 			if(database.duplicateAccount(checking)){
-				openCloseOutput.setText(profile.toString()+ " same account(type) is in the database.\n");
+				openCloseOutput.appendText(profile.toString()+ " same account(type) is in the database.\n");
 				return;
 			}
 		}catch(Exception e){
 
 		}
 		database.open(checking);
-		openCloseOutput.setText("Account opened.\n");
+		openCloseOutput.appendText("Account opened.\n");
 	}
 
 	/**
@@ -413,7 +413,7 @@ public class BankTellerController {
 		boolean initialDeposit = true;
 		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
 		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-			openCloseOutput.setText(balance);
+			openCloseOutput.appendText(balance);
 		}else{
 			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			Checking checking = new Checking(profile, deposit);
@@ -433,7 +433,7 @@ public class BankTellerController {
 		boolean initialDeposit = true;
 		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
 		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-			openCloseOutput.setText(balance);
+			openCloseOutput.appendText(balance);
 		}else{
 			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			CollegeChecking checking = new CollegeChecking(profile, deposit, campusCode);
@@ -450,7 +450,7 @@ public class BankTellerController {
 		boolean initialDeposit = true;
 		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
 		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-			openCloseOutput.setText(balance);
+			openCloseOutput.appendText(balance);
 		}else{
 			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			Savings savings = new Savings(profile, deposit, loyaltyCode);
@@ -459,13 +459,13 @@ public class BankTellerController {
 				attempt = true;
 			}
 			if(!database.open(savings)){
-				openCloseOutput.setText(profile.toString()+ " same account(type) is in the database.\n");
+				openCloseOutput.appendText(profile.toString()+ " same account(type) is in the database.\n");
 				return;
 			}
 			if(database.findAcct(savings) && attempt){
-				openCloseOutput.setText("Account reopened.\n");
+				openCloseOutput.appendText("Account reopened.\n");
 			}else{
-				openCloseOutput.setText("Account opened.\n");
+				openCloseOutput.appendText("Account opened.\n");
 			}
 		}
 	}
@@ -474,12 +474,12 @@ public class BankTellerController {
 		boolean initialDeposit = true;
 		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
 		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-			openCloseOutput.setText(balance);
+			openCloseOutput.appendText(balance);
 		}else{
 			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			MoneyMarket checking = new MoneyMarket(profile, deposit);
 			if(deposit<2500){
-				openCloseOutput.setText("Minimum of $2500 to open a MoneyMarket account.\n");
+				openCloseOutput.appendText("Minimum of $2500 to open a MoneyMarket account.\n");
 				return;
 			}
 			if(database.findAcct(checking) && database.getAccount(checking).getType().equals(checking.getType())){
@@ -497,7 +497,7 @@ public class BankTellerController {
 			String dbDate = openCloseDob.getValue().toString();
 			Date newDate = new Date(dbDate);
 			if(!newDate.isValid()){
-				openCloseOutput.setText("Date of birth invalid.");
+				openCloseOutput.appendText("Date of birth invalid.");
 			}else{
 				Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
 				String deposit = openCloseInitialAccountAmount.getText();
@@ -540,22 +540,22 @@ public class BankTellerController {
 
 							if(database.alreadyClosed(index)){
 								database.close(acct);
-								openCloseOutput.setText("Account is closed already.\n");
+								openCloseOutput.appendText("Account is closed already.\n");
 							}else{
 								database.close(acct);
-								openCloseOutput.setText("Account closed.\n");
+								openCloseOutput.appendText("Account closed.\n");
 							}
 						}
 
 					} catch (Exception e) {
-						openCloseOutput.setText("Missing data for closing an account.\n");
+						openCloseOutput.appendText("Missing data for closing an account.\n");
 					}
 				} else {
-					openCloseOutput.setText("Select open or close.");
+					openCloseOutput.appendText("Select open or close.");
 				}
 			}
 		}catch(Exception e){
-			openCloseOutput.setText("Missing data for opening/closing an account.\n");
+			openCloseOutput.appendText("Missing data for opening/closing an account.\n");
 		}
 	}
 
@@ -647,6 +647,6 @@ public class BankTellerController {
 			sb.append("*list of accounts by account type.\n");
 			sb.append(database.printByAccountType());
 		}
-		accountDatabaseOutput.setText(sb.toString());
+		accountDatabaseOutput.appendText(sb.toString());
 	}
 }
