@@ -634,6 +634,8 @@ public class BankTellerController {
 
                 openCloseLoyalCustomer.setSelected(false);
 
+                openCloseNB.setSelected(true);
+
                 openCloseCamden.setDisable(false);
                 openCloseNewark.setDisable(false);
                 openCloseNB.setDisable(false);
