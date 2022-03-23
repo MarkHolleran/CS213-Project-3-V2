@@ -279,77 +279,86 @@ public class BankTellerController {
 
         @FXML
         void withdrawAmount(ActionEvent event) {
-            String dbDate = depositWithdrawDob.getValue().toString();
-            Date newDate = new Date(dbDate);
-                if(!newDate.isValid()){
-                        openCloseOutput.setText("Date of birth invalid.");
-                }else{
-                        Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
-                        Account account = createAccount(newProfile, depositWithdrawAccountType,0);
-                        if(!database.findAcct(account)){
-                                if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
-                                }else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
-                                }else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
-                                }else{
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
-                                }
-                        }else{
-                                String balance = validWithdraw(depositWithdrawAmount.getText());
-                                if(!balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-                                        double deposit = Double.parseDouble(depositWithdrawAmount.getText());
-                                        Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+            try{
+                    String dbDate = depositWithdrawDob.getValue().toString();
+                    Date newDate = new Date(dbDate);
+                    if(!newDate.isValid()){
+                            openCloseOutput.setText("Date of birth invalid.");
+                    }else{
+                            Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
+                            Account account = createAccount(newProfile, depositWithdrawAccountType,0);
+                            if(!database.findAcct(account)){
+                                    if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+                                            depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
+                                    }else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
+                                            depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
+                                    }else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+                                            depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
+                                    }else{
+                                            depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
+                                    }
+                            }else{
+                                    String balance = validWithdraw(depositWithdrawAmount.getText());
+                                    if(!balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
+                                            double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+                                            Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
 
-                                        if(database.withdraw(acct)){
-                                                depositWithdrawOutput.setText("Withdraw - balance updated.\n");
-                                        }else{
-                                                depositWithdrawOutput.setText("Withdraw - insufficient fund.\n");
-                                        }
-                                }else{
-                                        depositWithdrawOutput.setText(validWithdraw(depositWithdrawAmount.getText()));
-                                }
-                        }
-                }
+                                            if(database.withdraw(acct)){
+                                                    depositWithdrawOutput.setText("Withdraw - balance updated.\n");
+                                            }else{
+                                                    depositWithdrawOutput.setText("Withdraw - insufficient fund.\n");
+                                            }
+                                    }else{
+                                            depositWithdrawOutput.setText(validWithdraw(depositWithdrawAmount.getText()));
+                                    }
+                            }
+                    }
+            }catch(Exception e){
+                    depositWithdrawOutput.setText("Missing data for withdrawing from an account.\n");
+            }
 
         }
 
 
         @FXML
         void depositAmount(ActionEvent event) {
-
-                String dbDate = depositWithdrawDob.getValue().toString();
-                Date newDate = new Date(dbDate);
-                if(!newDate.isValid()){
-                        openCloseOutput.setText("Date of birth invalid.");
-                }else{
-                        Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
-                        Account account = createAccount(newProfile, depositWithdrawAccountType,0);
-                        if(!database.findAcct(account)){
-                                if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
-                                }else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
-                                }else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
-                                }else{
-                                        depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
-                                }
+                try{
+                        String dbDate = depositWithdrawDob.getValue().toString();
+                        Date newDate = new Date(dbDate);
+                        if(!newDate.isValid()){
+                                openCloseOutput.setText("Date of birth invalid.");
                         }else{
-                                boolean initialDeposit = false;
-                                String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
-                                if(!balance.equals("Deposit - amount cannot be 0 or negative.\n") &&
-                                        !balance.equals("Not a valid amount.\n")){
-                                        double deposit = Double.parseDouble(depositWithdrawAmount.getText());
-                                        Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
-                                        database.deposit(acct);
-                                        depositWithdrawOutput.setText("Deposit - balance updated.\n");
+                                Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
+                                Account account = createAccount(newProfile, depositWithdrawAccountType,0);
+                                if(!database.findAcct(account)){
+                                        if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+                                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
+                                        }else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
+                                                depositWithdrawOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
+                                        }else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+                                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
+                                        }else{
+                                                depositWithdrawOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
+                                        }
                                 }else{
-                                        depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                                        boolean initialDeposit = false;
+                                        String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
+                                        if(!balance.equals("Deposit - amount cannot be 0 or negative.\n") &&
+                                                !balance.equals("Not a valid amount.\n")){
+                                                double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+                                                Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+                                                database.deposit(acct);
+                                                depositWithdrawOutput.setText("Deposit - balance updated.\n");
+                                        }else{
+                                                depositWithdrawOutput.setText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+                                        }
                                 }
                         }
+                }catch(Exception e){
+                        depositWithdrawOutput.setText("Missing data for depositing to an account.\n");
                 }
+
+
         }
 
         @FXML
@@ -527,6 +536,7 @@ public class BankTellerController {
 
         @FXML
         void openCloseAccount(ActionEvent event) {
+                try{
                 String dbDate = openCloseDob.getValue().toString();
                 Date newDate = new Date(dbDate);
                 if(!newDate.isValid()){
@@ -591,6 +601,9 @@ public class BankTellerController {
                         } else {
                                 openCloseOutput.setText("Select open or close.");
                         }
+                }
+                }catch(Exception e){
+                        openCloseOutput.setText("Missing data for opening/closing an account.\n");
                 }
 
 
