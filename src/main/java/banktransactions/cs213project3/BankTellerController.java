@@ -246,14 +246,23 @@ public class BankTellerController {
 		}
 	}
 
+	private boolean validName(String name){
+		return name.matches( "[a-zA-Z]+([ '-][a-zA-Z]+)*" );
+	}
 
 	@FXML
 	void withdrawAmount(ActionEvent event) {
+
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid()){
-				depositWithdrawOutput.appendText("Date of birth invalid.");
+			if(!newDate.isValid() || !validName(depositWithdrawFirstName.getText())
+					|| !validName(depositWithdrawLastName.getText())){
+				if(!newDate.isValid()){
+					depositWithdrawOutput.appendText("Date of birth invalid.\n");
+				}else{
+					depositWithdrawOutput.appendText("Please enter a valid name.\n");
+				}
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
@@ -294,8 +303,13 @@ public class BankTellerController {
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid()){
-				depositWithdrawOutput.appendText("Date of birth invalid.");
+			if(!newDate.isValid() || !validName(depositWithdrawFirstName.getText())
+					|| !validName(depositWithdrawLastName.getText())){
+				if(!newDate.isValid()){
+					depositWithdrawOutput.appendText("Date of birth invalid.\n");
+				}else{
+					depositWithdrawOutput.appendText("Please enter a valid name.\n");
+				}
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
@@ -496,8 +510,13 @@ public class BankTellerController {
 		try{
 			String dbDate = openCloseDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid()){
-				openCloseOutput.appendText("Date of birth invalid.");
+			if(!newDate.isValid() || !validName(openClosefirstName.getText())
+					|| !validName(openCloseLastName.getText())){
+				if(!newDate.isValid()){
+					openCloseOutput.appendText("Date of birth invalid.\n");
+				}else{
+					openCloseOutput.appendText("Please enter a valid name.\n");
+				}
 			}else{
 				Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
 				String deposit = openCloseInitialAccountAmount.getText();
