@@ -152,7 +152,7 @@ import java.util.Calendar;
                 boolean yearValid = false;
                 boolean dayValid = false;
 
-                Date currentYear = new Date();
+                Date currentDate = new Date();
 
                 if (year < MIN_YEAR || year > MAX_YEAR) {
 
@@ -212,6 +212,14 @@ import java.util.Calendar;
                         dayValid = false;
 
                     }
+
+                }
+
+                if (month >= currentDate.getMonth() && day >= currentDate.getDay() ){
+
+                    monthValid = false;
+                    
+                    dayValid = false;
 
                 }
 
