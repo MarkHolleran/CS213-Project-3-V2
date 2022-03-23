@@ -363,7 +363,10 @@ public class BankTellerController {
         @FXML
         void openCloseAccountClicked(ActionEvent event) {
 
-                if (openClosefirstName.getText() == null || openClosefirstName.getText().trim().equals("") || openCloseLastName.getText() == null || openCloseLastName.getText().trim().equals("") || openCloseInitialAccountAmount.getText() == null || openCloseInitialAccountAmount.getText().trim().equals("") || openCloseDob.getValue().equals("")){
+
+
+
+                if (openClosefirstName.getText() == null || openClosefirstName.getText().trim().equals("") || openCloseLastName.getText() == null || openCloseLastName.getText().trim().equals("") || openCloseInitialAccountAmount.getText() == null || openCloseInitialAccountAmount.getText().trim().equals("") || openCloseDob.getValue() == null){
 
 
 
@@ -535,6 +538,8 @@ public class BankTellerController {
                 openCloseNB.setDisable(false);
 
                 openCloseLoyalCustomer.setDisable(true);
+
+                openCloseNB.setSelected(true);
 
         }
 

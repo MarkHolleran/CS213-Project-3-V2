@@ -371,7 +371,7 @@ public class BankTeller {
      * @param segmentedInput Commandline input for closing an Account
      * @param database Database containing Account objects
      */
-        private void tryCommandC(StringTokenizer segmentedInput, AccountDatabase database){
+    private void tryCommandC(StringTokenizer segmentedInput, AccountDatabase database){
         if (segmentedInput.countTokens() == CLOSE_ACCT_ARGS_MIN) {
             try {
 
@@ -384,10 +384,10 @@ public class BankTeller {
 
                 Account acct = createAccount(profile, accountType, 0);
 
-                if(database.findCertain(acct) != NOT_FOUND){
-                    int index = database.findCertain(acct);
+                if(database.find(acct) != NOT_FOUND){
+                   // int index = database.find(acct);
 
-                    if(database.alreadyClosed(index)){
+                    if(database.alreadyClosed(acct)){
                         database.close(acct);
                         System.out.println("Account is closed already.");
                     }else{
