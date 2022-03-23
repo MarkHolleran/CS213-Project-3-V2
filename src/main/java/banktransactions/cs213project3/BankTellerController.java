@@ -19,11 +19,12 @@ public class BankTellerController {
 	public static final int NON_LOYAL = 0;
 	public static final int NOT_FOUND = -1;
 
-	public static final int INDEX_0F_CHECKING = 0;
+	public static final int INDEX_OF_CHECKING = 0;
 	public static final int INDEX_OF_COLLEGE_CHECKING = 1;
 
-	public static final int INDEX_0F_SAVINGS = 2;
+	public static final int INDEX_OF_SAVINGS = 2;
 	public static final int INDEX_OF_MONEY_MARKET = 3;
+	public static final double BALANCE_IF_WAIVED = 2500;
 
 	public static final int INDEX_OF_CAMDEN = 2;
 	public static final int INDEX_OF_NEWARK = 1;
@@ -196,13 +197,13 @@ public class BankTellerController {
 	 */
 	private Account createAccount(Profile profile, ToggleGroup type, double balance){
 
-		if(type.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+		if(type.getToggles().get(INDEX_OF_CHECKING).isSelected()){
 			return new Checking(profile,balance);
 		}
 		if(type.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
 			return new CollegeChecking(profile, balance, INDEX_OF_NB);
 		}
-		if(type.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+		if(type.getToggles().get(INDEX_OF_SAVINGS).isSelected()){
 			return new Savings(profile, balance, NON_LOYAL);
 		}
 		if(type.getToggles().get(INDEX_OF_MONEY_MARKET).isSelected()){
@@ -334,11 +335,11 @@ public class BankTellerController {
 	 * a non-existent user was requested.
 	 */
 	private void accountNotFound(ToggleGroup type, TextArea area, Profile newProfile){
-		if (type.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+		if (type.getToggles().get(INDEX_OF_CHECKING).isSelected()){
 			area.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
 		}else if(type.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
 			area.appendText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
-		}else if(type.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+		}else if(type.getToggles().get(INDEX_OF_SAVINGS).isSelected()){
 			area.appendText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
 		}else{
 			area.appendText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
@@ -552,7 +553,7 @@ public class BankTellerController {
 			openCloseOutput.appendText(balance);
 		}else{
 			MoneyMarket checking = new MoneyMarket(profile, deposit);
-			if(deposit<2500){
+			if(deposit<BALANCE_IF_WAIVED){
 				openCloseOutput.appendText("Minimum of $2500 to open a MoneyMarket account.\n");
 				return;
 			}
@@ -663,6 +664,7 @@ public class BankTellerController {
 
 	@FXML
 	void openCloseCheckingClicked(MouseEvent event) {
+		openCloseChecking.setSelected(true);
 
 		openCloseLoyalCustomer.setSelected(false);
 
@@ -681,6 +683,7 @@ public class BankTellerController {
 	@FXML
 	void openCloseCollegeCheckingClicked(MouseEvent event) {
 
+		openCloseCollegeChecking.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);
 
 		openCloseNB.setSelected(true);
@@ -696,6 +699,8 @@ public class BankTellerController {
 	@FXML
 	void openCloseMoneyMarketClicked(MouseEvent event) {
 
+
+		openCloseMoneyMarket.setSelected(true);
 		openCloseNB.setSelected(false);
 		openCloseCamden.setSelected(false);
 		openCloseNewark.setSelected(false);
@@ -711,6 +716,7 @@ public class BankTellerController {
 	@FXML
 	void openCloseSavingsClicked(MouseEvent event) {
 
+		openCloseSavings.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);
 
 		openCloseNB.setSelected(false);
