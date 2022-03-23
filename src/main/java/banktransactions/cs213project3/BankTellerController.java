@@ -456,6 +456,7 @@ public class BankTellerController {
 			}else{
 				attemptOpen(checking, profile, database);
 			}
+
 		}
 	}
 
@@ -472,14 +473,10 @@ public class BankTellerController {
 			if(savings.closed){
 				attempt = true;
 			}
-			if(!database.open(savings)){
-				openCloseOutput.appendText(profile.toString()+ " same account(type) is in the database.\n");
-				return;
-			}
-			if(database.findAcct(savings) && attempt){
-				openCloseOutput.appendText("Account reopened.\n");
+			if(database.findAcct(savings) && database.getAccount(savings).getType().equals(savings.getType())){
+				attemptReopen(savings, profile, database);
 			}else{
-				openCloseOutput.appendText("Account opened.\n");
+				attemptOpen(savings, profile, database);
 			}
 		}
 	}
