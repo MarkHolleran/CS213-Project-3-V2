@@ -47,7 +47,24 @@ public class AccountDatabase {
      * @param account Account object being searched for
      * @return Integer value of the array index position of the Account object if found, not_found otherwise
      */
-    public int find(Account account) {
+    private int find(Account account) {
+        for(int i = 0; i<numAcct; i++){
+            if(accounts[i].equals(account) && accounts[i].getType().equals(account.getType())){
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    /**
+     * Goes through each entry in the array searching for specified Account object
+     *
+     * If account is found its index is found, otherwise returns not_found
+     *
+     * @param account Account object being searched for
+     * @return Integer value of the array index position of the Account object if found, not_found otherwise
+     */
+    public int findCertain(Account account) {
         for(int i = 0; i<numAcct; i++){
             if(accounts[i].equals(account) && accounts[i].getType().equals(account.getType())){
                 return i;
@@ -299,6 +316,7 @@ public class AccountDatabase {
             sb.append("::fee $" + dformat.format(accounts[i].fee())
                     + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest()));
             outer.append(sb);
+            outer.append("\n");
         }
         outer.append("*end of list.\n");
         outer.append("\n");
