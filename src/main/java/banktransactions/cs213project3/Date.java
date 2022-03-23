@@ -215,22 +215,14 @@ import java.util.Calendar;
 
                 }
 
-                if (month >= currentDate.getMonth() && day >= currentDate.getDay() ){
-
+                if (month >= currentDate.getMonth() & day >= currentDate.getDay() && year >= currentDate.getYear()){
                     monthValid = false;
-                    
+                }
+                if (month > currentDate.getMonth() && year >= currentDate.getYear()){
                     dayValid = false;
-
                 }
 
-                if (monthValid == true && yearValid == true && dayValid == true) {
-
-                    return true;
-
-                } else {
-
-                    return false;
-                }
+                return(monthValid && yearValid && dayValid);
             }catch(Exception e){
                 return false;
             }
