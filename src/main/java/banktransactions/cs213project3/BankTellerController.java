@@ -565,21 +565,11 @@ public class BankTellerController {
                                         openCloseLoyalCustomer.setSelected(true);
 
                                         executeCommandCaseMM(newProfile, deposit);
-
                                 }
 
                         }else if (closeAccount.isSelected()){
-                        /*
-                        String dbDate = openCloseDob.getValue().toString();
-                                Date newDate = new Date(dbDate);
-                                Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
-                                String deposit = openCloseInitialAccountAmount.getText();
-                         */
-
 
                                 try {
-                                        //delete
-                                        //System.out.println(openCloseAccountType);
                                         Account acct = createAccount(newProfile, openCloseAccountType, 0);
 
                                         if(database.findCertain(acct) != NOT_FOUND){
@@ -599,7 +589,7 @@ public class BankTellerController {
                                         openCloseOutput.setText("Missing data for closing an account.\n");
                                 }
                         } else {
-                                openCloseOutput.setText("Select open or close");
+                                openCloseOutput.setText("Select open or close.");
                         }
                 }
 
