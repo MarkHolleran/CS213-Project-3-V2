@@ -12,12 +12,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
-import java.util.StringTokenizer;
 
 public class BankTellerController {
-
-	public static final String ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL = "a";
-
 
 	public static final int LOYAL = 1;
 	public static final int NON_LOYAL = 0;
@@ -67,7 +63,6 @@ public class BankTellerController {
 	@FXML
 	private RadioButton openCloseCamden;
 
-
 	@FXML
 	private ToggleGroup openCloseCampus;
 
@@ -115,8 +110,12 @@ public class BankTellerController {
 
 	AccountDatabase database = new AccountDatabase();
 
+	/**
+	 * Private method that displays all accounts in the Database Array
+	 * in current ordering
+	 */
 	@FXML
-	void printAllAccounts(ActionEvent event) {
+	void printAllAccounts() {
 		StringBuilder sb = new StringBuilder();
 		if(database.getNumAcct()==0){
 			sb.append("Account Database is empty!\n");
@@ -130,9 +129,30 @@ public class BankTellerController {
 		accountDatabaseOutput.appendText(sb.toString());
 	}
 
-
+	/**
+	 * Private method that displays all accounts in the Database Array
+	 * based on the type of account
+	 */
 	@FXML
-	void calculateFeesAndInterest(ActionEvent event) {
+	void printAccountsByType(ActionEvent event) {
+
+		StringBuilder sb = new StringBuilder();
+		if(database.getNumAcct()==0){
+			sb.append("Account Database is empty!\n");
+		}else{
+			sb.append("\n");
+			sb.append("*list of accounts by account type.\n");
+			sb.append(database.printByAccountType());
+		}
+		accountDatabaseOutput.appendText(sb.toString());
+	}
+
+	/**
+	 * Private method that displays all accounts in the Database Array
+	 * in current ordering with fees and monthlyInterest
+	 */
+	@FXML
+	void calculateFeesAndInterest() {
 		StringBuilder sb = new StringBuilder();
 		if(database.getNumAcct()==0){
 			sb.append("Account Database is empty!\n");
@@ -144,6 +164,11 @@ public class BankTellerController {
 		accountDatabaseOutput.appendText(sb.toString());
 	}
 
+	/**
+	 * Private method that recalculates balances given fees and
+	 * monthlyInterst and displays all accounts in the Database Array
+	 * in current ordering
+	 */
 	@FXML
 	void applyFeesAndInterest(ActionEvent event) {
 		StringBuilder sb = new StringBuilder();
@@ -160,14 +185,11 @@ public class BankTellerController {
 		accountDatabaseOutput.appendText(sb.toString());
 	}
 
-
-
-
 	/**
 	 * Creates an account based on the account type given a profile and balance
 	 *
 	 * @param profile Profile object that holds first name, last name, and date of birth
-	 * @param type String from user input to identify what type of account is being selected
+	 * @param type Toggled user input to identify what type of account is being selected
 	 * @param balance Double value representing account balance
 	 *
 	 * @return an Account of either type Checking, College Checking, Savings, or Money Market
@@ -178,10 +200,10 @@ public class BankTellerController {
 			return new Checking(profile,balance);
 		}
 		if(type.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
-			return new CollegeChecking(profile,balance,0);
+			return new CollegeChecking(profile, balance, INDEX_OF_NB);
 		}
 		if(type.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-			return new Savings(profile,balance,0);
+			return new Savings(profile, balance, NON_LOYAL);
 		}
 		if(type.getToggles().get(INDEX_OF_MONEY_MARKET).isSelected()){
 			return new MoneyMarket(profile,balance);
@@ -192,12 +214,12 @@ public class BankTellerController {
 	/**
 	 * Verifies that the deposit from user input is a positive double
 	 *
-	 * If the deposit is invalid, the respective error message is printed
+	 * If the deposit is invalid, the respective error message is sent to be printed
 	 *
-	 * @param deposit String from String Tokenizer potentially containing a proper deposit
+	 * @param deposit String from user potentially containing a proper deposit
 	 * @param initial boolean to signify if this is the account's initial deposit
 	 *
-	 * @return String value of the deposit if valid, invalid_deposit otherwise
+	 * @return String value of the deposit if valid, an error message otherwise
 	 */
 	private String validDeposit(String deposit, boolean initial){
 		StringBuilder sb = new StringBuilder();
@@ -223,11 +245,11 @@ public class BankTellerController {
 	/**
 	 * Verifies that the requested withdrawal from user input is a positive double
 	 *
-	 * If the withdrawal is invalid, the respective error message is printed
+	 * If the withdrawal is invalid, the respective error message is to be printed
 	 *
-	 * @param deposit String from String Tokenizer potentially containing a proper withdrawal
+	 * @param deposit String from user potentially containing a proper withdrawal
 	 *
-	 * @return String value of the withdrawal if valid, invalid_deposit otherwise
+	 * @return String value of the withdrawal if valid, an error message otherwise
 	 */
 	private String validWithdraw(String deposit){
 		StringBuilder sb = new StringBuilder();
@@ -246,13 +268,25 @@ public class BankTellerController {
 		}
 	}
 
+	/**
+	 * Verifies that the name does not have numbers and certain special characters
+	 *
+	 * @param name String from user input
+	 *
+	 * @return boolean value indicating whether name is valid or not
+	 */
 	private boolean validName(String name){
 		return name.matches( "[a-zA-Z]+([ '-][a-zA-Z]+)*" );
 	}
 
+	/**
+	 * Private method for subtracting specified
+	 * amount from the balance of an Account object
+	 *
+	 * If any data is improperly formatted, the respective error is given
+	 */
 	@FXML
-	void withdrawAmount(ActionEvent event) {
-
+	void withdrawAmount() {
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
@@ -269,11 +303,17 @@ public class BankTellerController {
 				if(!database.findAcct(account)){
 					accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
 				}else{
+					boolean initialDeposit = false;
 					String balance = validWithdraw(depositWithdrawAmount.getText());
-					if(!balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-						double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+					boolean isDouble = true;
+					double deposit = 0;
+					try{
+						deposit = Double.parseDouble(balance);
+					}catch(Exception e){
+						isDouble = false;
+					}
+					if(isDouble){
 						Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
-
 						if(database.withdraw(acct)){
 							depositWithdrawOutput.appendText("Withdraw - balance updated.\n");
 						}else{
@@ -289,6 +329,10 @@ public class BankTellerController {
 		}
 	}
 
+	/**
+	 * Private method for notifying user that
+	 * a non-existent user was requested.
+	 */
 	private void accountNotFound(ToggleGroup type, TextArea area, Profile newProfile){
 		if (type.getToggles().get(INDEX_0F_CHECKING).isSelected()){
 			area.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
@@ -301,6 +345,11 @@ public class BankTellerController {
 		}
 	}
 
+	/**
+	 * Private method for depositing amount into an Account object
+	 *
+	 * If any data is improperly formatted, the respective error is given
+	 */
 	@FXML
 	void depositAmount(ActionEvent event) {
 		try{
@@ -325,7 +374,7 @@ public class BankTellerController {
 					boolean isDouble = true;
 					double deposit = 0;
 					try{
-						deposit = Double.parseDouble(depositWithdrawAmount.getText());
+						deposit = Double.parseDouble(balance);
 					}catch(Exception e){
 						isDouble = false;
 					}
@@ -342,38 +391,7 @@ public class BankTellerController {
 			depositWithdrawOutput.appendText("Missing data for depositing to an account.\n");
 		}
 	}
-/*
-	@FXML
-	void initialDepositAmount(ActionEvent event) {
-		String dbDate = openCloseDob.getValue().toString();
-		Date newDate = new Date(dbDate);
-		Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
-		Account account = createAccount(newProfile, openCloseAccountType,0);
-		if(!database.findAcct(account)){
-			if (openCloseAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-				openCloseOutput.setText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
-			}else if(openCloseAccountType.getToggles().get(INDEX_OF_COLLEGECHECKING).isSelected()){
-				openCloseOutput.setText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
-			}else if(openCloseAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-				openCloseOutput.setText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
-			}else{
-				openCloseOutput.setText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
-			}
-		}else{
-			boolean initialDeposit = false;
-			String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
-			if(!balance.equals("Deposit - amount cannot be 0 or negative.\n") &&
-					!balance.equals("Not a valid amount.\n")){
-				double deposit = Double.parseDouble(openCloseInitialAccountAmount.getText());
-				Account acct = createAccount(newProfile, openCloseAccountType, deposit);
-				database.deposit(acct);
-				openCloseOutput.setText("Deposit - balance updated.\n");
-			}else{
-				openCloseOutput.setText(validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit));
-			}
-		}
-	}
-*/
+
 	/**
 	 * Attempts to reopen an account
 	 *
@@ -381,7 +399,6 @@ public class BankTellerController {
 	 * open() from AccountDatabase will reopen the account, otherwise
 	 * a message saying the account is open is printed
 	 *
-
 	 *
 	 * @param checking Account object to be opened in array
 	 * @param profile Profile used to print eror message if already open
@@ -422,8 +439,9 @@ public class BankTellerController {
 
 	/**
 	 * Private method for creating a Checking Account object
-	 * @param profile Commandline input containing first name, last name, date of birth, and initial deposit amount
-	 * @param depositit Database containing Account objects
+	 *
+	 * @param profile Input containing first name, last name, date of birth, and initial deposit amount
+	 * @param depositit String from user potentially containing a proper deposit
 	 */
 	private void executeCommandCaseC(Profile profile, String depositit){
 		boolean initialDeposit = true;
@@ -449,7 +467,13 @@ public class BankTellerController {
 
 
 
-
+	/**
+	 * Private method for creating a College Checking Account object
+	 *
+	 * @param profile Input containing first name, last name, date of birth, and initial deposit amount
+	 * @param depositit String from user potentially containing a proper deposit
+	 * @param campusCode integer assigning the campus that is tied to the account
+	 */
 	private void executeCommandCaseCC(Profile profile, String depositit, int campusCode){
 
 		boolean initialDeposit = true;
@@ -474,6 +498,13 @@ public class BankTellerController {
 		}
 	}
 
+	/**
+	 * Private method for creating a Savings Account object
+	 *
+	 * @param profile Input containing first name, last name, date of birth, and initial deposit amount
+	 * @param depositit String from user potentially containing a proper deposit
+	 * @param loyaltyCode integer notifying if the account is loyal or not
+	 */
 	private void executeCommandCaseS(Profile profile, String depositit, int loyaltyCode){
 
 		boolean initialDeposit = true;
@@ -501,6 +532,12 @@ public class BankTellerController {
 		}
 	}
 
+	/**
+	 * Private method for creating a Money Market Account object
+	 *
+	 * @param profile Input containing first name, last name, date of birth, and initial deposit amount
+	 * @param depositit String from user potentially containing a proper deposit
+	 */
 	private void executeCommandCaseMM(Profile profile, String depositit){
 		boolean initialDeposit = true;
 		String balance = validDeposit(depositit, initialDeposit);
@@ -528,8 +565,15 @@ public class BankTellerController {
 
 	}
 
+	/**
+	 * Private method that attempts to Open or Close an Account
+	 *
+	 * If the command follows the proper formatting,
+	 * the command will move forward to execute
+	 * commands of different account type.
+	 */
 	@FXML
-	void openCloseAccount(ActionEvent event) {
+	void openCloseAccount() {
 		try{
 			String dbDate = openCloseDob.getValue().toString();
 			Date newDate = new Date(dbDate);
@@ -680,17 +724,4 @@ public class BankTellerController {
 
 	}
 
-	@FXML
-	void printAccountsByType(ActionEvent event) {
-
-		StringBuilder sb = new StringBuilder();
-		if(database.getNumAcct()==0){
-			sb.append("Account Database is empty!\n");
-		}else{
-			sb.append("\n");
-			sb.append("*list of accounts by account type.\n");
-			sb.append(database.printByAccountType());
-		}
-		accountDatabaseOutput.appendText(sb.toString());
-	}
 }
