@@ -551,7 +551,7 @@ public class BankTellerController {
 						openCloseOutput.appendText("Missing data for closing an account.\n");
 					}
 				} else {
-					openCloseOutput.appendText("Select open or close.");
+					openCloseOutput.appendText("Select open or close.\n");
 				}
 			}
 		}catch(Exception e){
