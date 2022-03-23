@@ -154,7 +154,7 @@ public class BankTellerController {
 			sb.append("*list of accounts with updated balance\n");
 			database.calculate();
 			sb.append(database.print());
-			sb.append("*end of list*\n");
+			sb.append("*end of list.\n");
 			sb.append("\n");
 		}
 		accountDatabaseOutput.appendText(sb.toString());
