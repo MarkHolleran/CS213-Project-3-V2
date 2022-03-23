@@ -599,7 +599,7 @@ public class BankTellerController {
                                         openCloseOutput.setText("Missing data for closing an account.\n");
                                 }
                         } else {
-                                openCloseOutput.setText("Missing data for closing an account.........\n");
+                                openCloseOutput.setText("Select open or close");
                         }
                 }
 
