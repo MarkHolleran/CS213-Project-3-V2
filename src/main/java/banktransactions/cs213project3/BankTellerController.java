@@ -253,7 +253,7 @@ public class BankTellerController {
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
 			if(!newDate.isValid()){
-				openCloseOutput.appendText("Date of birth invalid.");
+				depositWithdrawOutput.appendText("Date of birth invalid.");
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
@@ -295,7 +295,7 @@ public class BankTellerController {
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
 			if(!newDate.isValid()){
-				openCloseOutput.appendText("Date of birth invalid.");
+				depositWithdrawOutput.appendText("Date of birth invalid.");
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
