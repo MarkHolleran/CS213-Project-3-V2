@@ -24,7 +24,7 @@ public class AccountDatabase {
      * Default constructor that constructs an Array of type Account objects
      * The array is initialized to a size of 4 and the number of accounts to 0
      */
-    public AccountDatabase(){
+    public AccountDatabase() {
         this.accounts = new Account[4];
         this.numAcct = 0;
 
@@ -35,21 +35,21 @@ public class AccountDatabase {
      *
      * @return Integer representing current number of Account objects within the array
      */
-    public int getNumAcct(){
+    public int getNumAcct() {
         return this.numAcct;
     }
 
     /**
      * Goes through each entry in the array searching for specified Account object
-     *
+     * <
      * If account is found its index is found, otherwise returns not_found
      *
      * @param account Account object being searched for
      * @return Integer value of the array index position of the Account object if found, not_found otherwise
      */
     public int find(Account account) {
-        for(int i = 0; i<numAcct; i++){
-            if(accounts[i].equals(account) && accounts[i].getType().equals(account.getType())){
+        for (int i = 0; i < numAcct; i++) {
+            if (accounts[i].equals(account) && accounts[i].getType().equals(account.getType())) {
                 return i;
             }
         }
@@ -62,9 +62,9 @@ public class AccountDatabase {
      * @param acct Account object being searched for
      * @return True or false if the Account object being searched for was found or not
      */
-    public boolean findAcct(Account acct){
-        for(int i = 0; i < numAcct; i++){
-            if(accounts[i].equals(acct) && accounts[i].getType().equals(acct.getType())){
+    public boolean findAcct(Account acct) {
+        for (int i = 0; i < numAcct; i++) {
+            if (accounts[i].equals(acct) && accounts[i].getType().equals(acct.getType())) {
                 return true;
             }
         }
@@ -77,9 +77,9 @@ public class AccountDatabase {
      * @param acct Account object being searched for
      * @return Account object if account being searched for was found or not
      */
-    public Account getAccount(Account acct){
-        for(int i = 0; i < numAcct; i++){
-            if(accounts[i].equals(acct) && accounts[i].getType().equals(acct.getType())){
+    public Account getAccount(Account acct) {
+        for (int i = 0; i < numAcct; i++) {
+            if (accounts[i].equals(acct) && accounts[i].getType().equals(acct.getType())) {
                 return accounts[i];
             }
         }
@@ -89,15 +89,34 @@ public class AccountDatabase {
     /**
      * Goes to specified array index and checks if Account is closed or not
      *
-     * @param index Index position of an Array
+     * @param account Index position of an Array
+     *                <p>
+     *                //CHange this
      * @return True if the Account object at specified array index is closed, false otherwise
      */
-    public boolean alreadyClosed(int index){
-        if(accounts[index].closed){
-            return true;
-        }
-        return false;
+    public boolean alreadyClosed(Account account) {
+        //use get account
+
+        //find account then see if closed or not
+
+        if (getAccount(account) == null) {
+            //account doesn't exist
+
+        } else {
+
+            if (getAccount(account).closed == true) {
+                //it is already closed
+
+                return true;
+
+            }
+
+            }
+            return false;
+
     }
+
+
 
     /**
      * Helper method used for resizing an Array

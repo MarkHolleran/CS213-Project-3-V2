@@ -1,6 +1,8 @@
 package banktransactions.cs213project3;
 
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -67,6 +69,18 @@ public class BankTellerController {
         private TextArea depositWithdrawOutput;
 
         @FXML
+        private RadioButton depositWithdrawSavings;
+
+        @FXML
+        private RadioButton depositWithdrawMoneyMarket;
+
+        @FXML
+        private RadioButton depositWithdrawChecking;
+
+        @FXML
+        private RadioButton depositWithdrawCollegeChecking;
+
+        @FXML
         private ToggleGroup openCloseAccountType;
 
         @FXML
@@ -122,12 +136,17 @@ public class BankTellerController {
         private RadioButton openAccount;
 
 
+        @FXML
+        private Button openCloseAccountButton;
+
+
 
 
 
 
 
         AccountDatabase database = new AccountDatabase();
+
 
         @FXML
         void printAllAccounts(ActionEvent event) {
@@ -342,10 +361,18 @@ public class BankTellerController {
 
 
         @FXML
-        void openCloseAccount(ActionEvent event) {
+        void openCloseAccountClicked(ActionEvent event) {
 
-                if (openAccount.isSelected() == true){
+                if (openClosefirstName.getText() == null || openClosefirstName.getText().trim().equals("") || openCloseLastName.getText() == null || openCloseLastName.getText().trim().equals("") || openCloseInitialAccountAmount.getText() == null || openCloseInitialAccountAmount.getText().trim().equals("") || openCloseDob.getValue().equals("")){
 
+
+
+
+                        openCloseOutput.appendText("cheese");
+
+                }else {
+
+                        if (openAccount.isSelected() == true) {
 
 
                                 String dbDate = openCloseDob.getValue().toString();
@@ -357,98 +384,110 @@ public class BankTellerController {
                                 double initAccountAmount = Double.parseDouble(openCloseInitialAccountAmount.getText());
 
 
+                                if (openCloseChecking.isSelected() == true) {
 
-                        if (openCloseChecking.isSelected() == true){
+                                        Checking newChecking = new Checking(newProfile, initAccountAmount);
 
-                                Checking newChecking = new Checking(newProfile, initAccountAmount);
+                                        database.open(newChecking);
 
-                                database.open(newChecking);
+                                } else if (openCloseCollegeChecking.isSelected() == true) {
 
-                        }else if (openCloseCollegeChecking.isSelected() == true){
+                                        if (openCloseCamden.isSelected() == true) {
 
-                                if (openCloseCamden.isSelected() == true){
+                                                CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NB);
+                                                database.open(newCollegeChecking);
 
-                                        CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_CAMDEN);
-                                        database.open(newCollegeChecking);
+                                        } else if (openCloseNewark.isSelected() == true) {
 
-                                }else if (openCloseNewark.isSelected() == true){
+                                                CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NEWARK);
+                                                database.open(newCollegeChecking);
 
-                                        CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NEWARK);
-                                        database.open(newCollegeChecking);
+                                        } else if (openCloseNB.isSelected() == true) {
 
-                                }else if (openCloseNB.isSelected() == true){
+                                                CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_CAMDEN);
+                                                database.open(newCollegeChecking);
 
-                                        CollegeChecking newCollegeChecking = new CollegeChecking(newProfile, initAccountAmount, INDEX_OF_NB);
-                                        database.open(newCollegeChecking);
-
-                                }
-
-                        }else if (openCloseSavings.isSelected() == true){
-
-                                if (openCloseLoyalCustomer.isSelected() == false){
-
-                                        Savings newSavings = new Savings(newProfile, initAccountAmount,NON_LOYAL);
-                                        database.open(newSavings);
-
-                                }else{
-                                        Savings newSavings = new Savings(newProfile, initAccountAmount,LOYAL);
-                                        database.open(newSavings);
-
-                                }
-
-                        }else if (openCloseMoneyMarket.isSelected() == true){
-
-                                openCloseLoyalCustomer.setSelected(true);
-
-                                if (openCloseLoyalCustomer.isSelected() == false){
-
-                                        MoneyMarket newMoneyMarket = new MoneyMarket(newProfile, initAccountAmount);
-
-                                        newMoneyMarket.loyalCustomer = NON_LOYAL;
-
-                                        database.open(newMoneyMarket);
-
-
-                                }else{
-
-                                        MoneyMarket newMoneyMarket = new MoneyMarket(newProfile, initAccountAmount);
-
-                                        database.open(newMoneyMarket);
-
-                                }
-
-                        }
-
-                }else if (closeAccount.isSelected() == true){
-
-                        String dbDate = openCloseDob.getValue().toString();
-
-                        Date newDate = new Date(dbDate);
-
-                        Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
-
-                        try {
-
-                                Account acct = createAccount(newProfile, openCloseAccountType, 0);
-
-                                if(database.find(acct) != NOT_FOUND){
-                                        int index = database.find(acct);
-
-                                        if(database.alreadyClosed(index)){
-                                                database.close(acct);
-                                                openCloseOutput.appendText("Account is closed already.\n");
-                                        }else{
-                                                database.close(acct);
-                                                openCloseOutput.appendText("Account closed.\n");
                                         }
+
+                                } else if (openCloseSavings.isSelected() == true) {
+
+                                        if (openCloseLoyalCustomer.isSelected() == false) {
+
+                                                Savings newSavings = new Savings(newProfile, initAccountAmount, NON_LOYAL);
+                                                database.open(newSavings);
+
+                                        } else {
+                                                Savings newSavings = new Savings(newProfile, initAccountAmount, LOYAL);
+                                                database.open(newSavings);
+
+                                        }
+
+                                } else if (openCloseMoneyMarket.isSelected() == true) {
+
+                                        openCloseLoyalCustomer.setSelected(true);
+
+                                        if (openCloseLoyalCustomer.isSelected() == false) {
+
+                                                MoneyMarket newMoneyMarket = new MoneyMarket(newProfile, initAccountAmount);
+
+                                                newMoneyMarket.loyalCustomer = NON_LOYAL;
+
+                                                database.open(newMoneyMarket);
+
+
+                                        } else {
+
+                                                MoneyMarket newMoneyMarket = new MoneyMarket(newProfile, initAccountAmount);
+
+                                                database.open(newMoneyMarket);
+
+                                        }
+
                                 }
 
+                        } else if (closeAccount.isSelected() == true) {
 
-                        } catch (Exception e) {
+                                String dbDate = openCloseDob.getValue().toString();
+
+                                Date newDate = new Date(dbDate);
+
+                                Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
+
+                                try {
+
+                                        if (depositWithdrawChecking.isSelected() == true) {
+
+                                                Account acct = createAccount(newProfile, openCloseAccountType, 0);
+
+
+                                        }
+
+                                        Account acct = createAccount(newProfile, openCloseAccountType, 0);
+                                        //technically a magic number fix********
+                                        //openclosedaccounttype is 0 1 2 3 ???
+
+
+                                        if (database.find(acct) != NOT_FOUND) {
+                                                //int index = database.find(acct);
+
+                                                if (database.alreadyClosed(acct)) {
+                                                        //if it is already closed
+                                                        //database.close(acct);
+                                                        openCloseOutput.appendText("Account is closed already.\n");
+                                                } else {
+                                                        database.close(acct);
+                                                        openCloseOutput.appendText("Account closed.\n");
+                                                }
+                                        }
+
+
+                                } catch (Exception e) {
+                                        openCloseOutput.appendText("Missing data for closing an account.\n");
+                                }
+                        } else {
                                 openCloseOutput.appendText("Missing data for closing an account.\n");
                         }
-                } else {
-                        openCloseOutput.appendText("Missing data for closing an account.\n");
+
                 }
 
         }
