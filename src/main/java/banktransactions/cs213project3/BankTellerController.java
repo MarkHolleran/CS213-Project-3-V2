@@ -267,15 +267,7 @@ public class BankTellerController {
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
 				if(!database.findAcct(account)){
-					if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
-					}else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
-					}else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
-					}else{
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
-					}
+					accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
 				}else{
 					String balance = validWithdraw(depositWithdrawAmount.getText());
 					if(!balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
@@ -297,6 +289,17 @@ public class BankTellerController {
 		}
 	}
 
+	private void accountNotFound(ToggleGroup type, TextArea area, Profile newProfile){
+		if (type.getToggles().get(INDEX_0F_CHECKING).isSelected()){
+			area.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
+		}else if(type.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
+			area.appendText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
+		}else if(type.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
+			area.appendText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
+		}else{
+			area.appendText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
+		}
+	}
 
 	@FXML
 	void depositAmount(ActionEvent event) {
@@ -314,20 +317,19 @@ public class BankTellerController {
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
 				if(!database.findAcct(account)){
-					if (depositWithdrawAccountType.getToggles().get(INDEX_0F_CHECKING).isSelected()){
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Checking" + " is not in the database.\n");
-					}else if(depositWithdrawAccountType.getToggles().get(INDEX_OF_COLLEGE_CHECKING).isSelected()){
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "College Checking" + " is not in the database.\n");
-					}else if(depositWithdrawAccountType.getToggles().get(INDEX_0F_SAVINGS).isSelected()){
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Savings" + " is not in the database.\n");
-					}else{
-						depositWithdrawOutput.appendText(newProfile.toString() + " " + "Money Market" + " is not in the database.\n");
-					}
+					accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
+
 				}else{
 					boolean initialDeposit = false;
 					String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
-					if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
-						double deposit = Double.parseDouble(depositWithdrawAmount.getText());
+					boolean isDouble = true;
+					double deposit = 0;
+					try{
+						deposit = Double.parseDouble(depositWithdrawAmount.getText());
+					}catch(Exception e){
+						isDouble = false;
+					}
+					if(isDouble){
 						Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
 						database.deposit(acct);
 						depositWithdrawOutput.appendText("Deposit - balance updated.\n");
@@ -425,11 +427,17 @@ public class BankTellerController {
 	 */
 	private void executeCommandCaseC(Profile profile, String depositit){
 		boolean initialDeposit = true;
-		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
-		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
+		String balance = validDeposit(depositit, initialDeposit);
+		double deposit = 0;
+		boolean isDouble = true;
+		try{
+			deposit = Double.parseDouble(balance);
+		}catch(Exception e){
+			isDouble = false;
+		}
+		if(!isDouble){
 			openCloseOutput.appendText(balance);
 		}else{
-			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			Checking checking = new Checking(profile, deposit);
 			if(database.findAcct(checking)){
 				attemptReopen(checking, profile, database);
@@ -445,11 +453,17 @@ public class BankTellerController {
 	private void executeCommandCaseCC(Profile profile, String depositit, int campusCode){
 
 		boolean initialDeposit = true;
-		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
-		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
+		String balance = validDeposit(depositit, initialDeposit);
+		double deposit = 0;
+		boolean isDouble = true;
+		try{
+			deposit = Double.parseDouble(balance);
+		}catch(Exception e){
+			isDouble = false;
+		}
+		if(!isDouble){
 			openCloseOutput.appendText(balance);
 		}else{
-			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			CollegeChecking checking = new CollegeChecking(profile, deposit, campusCode);
 			if(database.findAcct(checking)){
 				attemptReopen(checking, profile, database);
@@ -463,11 +477,17 @@ public class BankTellerController {
 	private void executeCommandCaseS(Profile profile, String depositit, int loyaltyCode){
 
 		boolean initialDeposit = true;
-		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
-		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
+		String balance = validDeposit(depositit, initialDeposit);
+		double deposit = 0;
+		boolean isDouble = true;
+		try{
+			deposit = Double.parseDouble(balance);
+		}catch(Exception e){
+			isDouble = false;
+		}
+		if(!isDouble){
 			openCloseOutput.appendText(balance);
 		}else{
-			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			Savings savings = new Savings(profile, deposit, loyaltyCode);
 			boolean attempt = false;
 			if(savings.closed){
@@ -483,11 +503,17 @@ public class BankTellerController {
 
 	private void executeCommandCaseMM(Profile profile, String depositit){
 		boolean initialDeposit = true;
-		String balance = validDeposit(openCloseInitialAccountAmount.getText(), initialDeposit);
-		if(balance.contains(ERROR_CONTAINING_DEPOSIT_OR_WITHDRAWAL)){
+		String balance = validDeposit(depositit, initialDeposit);
+		double deposit = 0;
+		boolean isDouble = true;
+		try{
+			deposit = Double.parseDouble(balance);
+		}catch(Exception e){
+			isDouble = false;
+		}
+		if(!isDouble){
 			openCloseOutput.appendText(balance);
 		}else{
-			double deposit = Double.parseDouble(validDeposit(depositit, initialDeposit));
 			MoneyMarket checking = new MoneyMarket(profile, deposit);
 			if(deposit<2500){
 				openCloseOutput.appendText("Minimum of $2500 to open a MoneyMarket account.\n");
@@ -561,6 +587,8 @@ public class BankTellerController {
 								database.close(acct);
 								openCloseOutput.appendText("Account closed.\n");
 							}
+						}else{
+							accountNotFound(openCloseAccountType, openCloseOutput, newProfile);
 						}
 
 					} catch (Exception e) {
