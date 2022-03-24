@@ -18,6 +18,11 @@ import java.io.IOException;
 public class BankTellerMain extends Application {
 
     /**
+     * Constructor for Creating BanktellerMain
+     */
+    public BankTellerMain (){}
+
+    /**
      * Creates a new scene using fxml file
      * then the scene is added to the scene
      *

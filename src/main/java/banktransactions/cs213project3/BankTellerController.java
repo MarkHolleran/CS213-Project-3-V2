@@ -102,6 +102,9 @@ public class BankTellerController {
 
 	AccountDatabase database = new AccountDatabase();
 
+	/**
+	 * Constructor for BankTellerController
+	 */
 	public BankTellerController() {
 	}
 
@@ -613,8 +616,9 @@ public class BankTellerController {
 
 	/**
 	 * Private method that executes an account closing
-	 *
 	 * The type of account is checked and closed accordingly
+	 *
+	 * @param newProfile Profile to be closed
 	 */
 	private void executeClose(Profile newProfile){
 		try {
