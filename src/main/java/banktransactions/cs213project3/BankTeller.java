@@ -387,7 +387,7 @@ public class BankTeller {
                 if(database.findCertain(acct) != NOT_FOUND){
                    int index = database.findCertain(acct);
 
-                    if(database.alreadyClosed(index)){
+                    if(database.alreadyClosed(acct)){
                         database.close(acct);
                         System.out.println("Account is closed already.");
                     }else{

@@ -8,7 +8,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 
@@ -623,7 +622,7 @@ public class BankTellerController {
 						if(database.findCertain(acct) != NOT_FOUND){
 							int index = database.findCertain(acct);
 
-							if(database.alreadyClosed(index)){
+							if(database.alreadyClosed(acct)){
 								database.close(acct);
 								openCloseOutput.appendText("Account is closed already.\n");
 							}else{
@@ -654,7 +653,7 @@ public class BankTellerController {
 	 * Method to help keep buttons disabled to reduce potential errors from user input
 	 */
 	@FXML
-	protected void openAccountClicked(MouseEvent event) {
+	protected void openAccountClicked() {
 		openCloseInitialAccountAmount.setDisable(false);
 	}
 
@@ -664,7 +663,7 @@ public class BankTellerController {
 	 * Method to help keep buttons disabled to reduce potential errors from user input
 	 */
 	@FXML
-	protected void closeAccountClicked(MouseEvent event) {
+	protected void closeAccountClicked() {
 		openCloseInitialAccountAmount.setDisable(true);
 
 	}
@@ -675,7 +674,7 @@ public class BankTellerController {
 	 * Helps disable buttons like loyalty or campus that are unnecessary
 	 */
 	@FXML
-	protected void openCloseCheckingClicked(MouseEvent event) {
+	protected void openCloseCheckingClicked() {
 		openCloseChecking.setSelected(true);
 
 		openCloseLoyalCustomer.setSelected(false);
@@ -698,7 +697,7 @@ public class BankTellerController {
 	 * Helps disable buttons like loyalty that are unnecessary
 	 */
 	@FXML
-	protected void openCloseCollegeCheckingClicked(MouseEvent event) {
+	protected void openCloseCollegeCheckingClicked() {
 
 		openCloseCollegeChecking.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);
@@ -719,7 +718,7 @@ public class BankTellerController {
 	 * Helps disable buttons like campus that are unnecessary and keeps loyalty selected
 	 */
 	@FXML
-	protected void openCloseMoneyMarketClicked(MouseEvent event) {
+	protected void openCloseMoneyMarketClicked() {
 
 
 		openCloseMoneyMarket.setSelected(true);
@@ -741,7 +740,7 @@ public class BankTellerController {
 	 * Helps disable buttons like campus that are unnecessary and allows us to use loyalty
 	 */
 	@FXML
-	protected void openCloseSavingsClicked(MouseEvent event) {
+	protected void openCloseSavingsClicked() {
 
 		openCloseSavings.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);

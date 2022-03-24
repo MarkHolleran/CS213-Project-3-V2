@@ -104,10 +104,12 @@ public class AccountDatabase {
     /**
      * Goes to specified array index and checks if Account is closed or not
      *
-     * @param index Index position of an Array
+     * @param acct Account that needs to checked
      * @return True if the Account object at specified array index is closed, false otherwise
      */
-    public boolean alreadyClosed(int index){
+    public boolean alreadyClosed(Account acct){
+        int index = find(acct);
+
         if(accounts[index].closed){
             return true;
         }

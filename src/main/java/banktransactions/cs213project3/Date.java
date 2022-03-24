@@ -15,11 +15,6 @@ import java.util.Calendar;
         private int month;
         private int day;
 
-        public static final int DAYS_IN_APRIL = 30;
-        public static final int DAYS_IN_JUNE = 30;
-        public static final int DAYS_IN_SEPTEMBER = 30;
-        public static final int DAYS_IN_NOVEMBER = 30;
-
         public static final int JANUARY = 1;
         public static final int FEBRUARY = 2;
         public static final int MARCH = 3;
