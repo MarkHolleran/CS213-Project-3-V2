@@ -272,6 +272,35 @@ public class BankTellerController {
 	}
 
 	/**
+	 * Method that executes withdraw and sends message if funds are sufficient or not
+	 */
+	private void executeWithdraw(Profile newProfile, Account account){
+		if(!database.findAcct(account)){
+			accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
+		}else{
+			String balance = validWithdraw(depositWithdrawAmount.getText());
+			boolean isDouble = true;
+			double deposit = 0;
+			try{
+				deposit = Double.parseDouble(balance);
+			}catch(Exception e){
+				isDouble = false;
+			}
+			if(isDouble){
+				Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+				if(database.withdraw(acct)){
+					depositWithdrawOutput.appendText("Withdraw - balance updated.\n");
+				}else{
+					depositWithdrawOutput.appendText("Withdraw - insufficient fund.\n");
+				}
+			}else{
+				depositWithdrawOutput.appendText(validWithdraw(depositWithdrawAmount.getText()));
+			}
+		}
+	}
+
+
+	/**
 	 * Private method for subtracting specified
 	 * amount from the balance of an Account object
 	 *
@@ -292,28 +321,7 @@ public class BankTellerController {
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
-				if(!database.findAcct(account)){
-					accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
-				}else{
-					String balance = validWithdraw(depositWithdrawAmount.getText());
-					boolean isDouble = true;
-					double deposit = 0;
-					try{
-						deposit = Double.parseDouble(balance);
-					}catch(Exception e){
-						isDouble = false;
-					}
-					if(isDouble){
-						Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
-						if(database.withdraw(acct)){
-							depositWithdrawOutput.appendText("Withdraw - balance updated.\n");
-						}else{
-							depositWithdrawOutput.appendText("Withdraw - insufficient fund.\n");
-						}
-					}else{
-						depositWithdrawOutput.appendText(validWithdraw(depositWithdrawAmount.getText()));
-					}
-				}
+				executeWithdraw(newProfile, account);
 			}
 		}catch(Exception e){
 			depositWithdrawOutput.appendText("Missing data for withdrawing from an account.\n");
@@ -337,6 +345,33 @@ public class BankTellerController {
 	}
 
 	/**
+	 * Method that executes withdraw and sends message if funds are sufficient or not
+	 */
+	private void executeDeposit(Profile newProfile, Account account){
+		if(!database.findAcct(account)){
+			accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
+
+		}else{
+			boolean initialDeposit = false;
+			String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
+			boolean isDouble = true;
+			double deposit = 0;
+			try{
+				deposit = Double.parseDouble(balance);
+			}catch(Exception e){
+				isDouble = false;
+			}
+			if(isDouble){
+				Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
+				database.deposit(acct);
+				depositWithdrawOutput.appendText("Deposit - balance updated.\n");
+			}else{
+				depositWithdrawOutput.appendText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
+			}
+		}
+	}
+
+	/**
 	 * Private method for depositing amount into an Account object
 	 *
 	 * If any data is improperly formatted, the respective error is given
@@ -356,27 +391,7 @@ public class BankTellerController {
 			}else{
 				Profile newProfile = new Profile(depositWithdrawFirstName.getText(), depositWithdrawLastName.getText(), newDate);
 				Account account = createAccount(newProfile, depositWithdrawAccountType,0);
-				if(!database.findAcct(account)){
-					accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
-
-				}else{
-					boolean initialDeposit = false;
-					String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
-					boolean isDouble = true;
-					double deposit = 0;
-					try{
-						deposit = Double.parseDouble(balance);
-					}catch(Exception e){
-						isDouble = false;
-					}
-					if(isDouble){
-						Account acct = createAccount(newProfile, depositWithdrawAccountType, deposit);
-						database.deposit(acct);
-						depositWithdrawOutput.appendText("Deposit - balance updated.\n");
-					}else{
-						depositWithdrawOutput.appendText(validDeposit(depositWithdrawAmount.getText(), initialDeposit));
-					}
-				}
+				executeDeposit(newProfile, account);
 			}
 		}catch(Exception e){
 			depositWithdrawOutput.appendText("Missing data for depositing to an account.\n");
@@ -420,7 +435,7 @@ public class BankTellerController {
 				return;
 			}
 		}catch(Exception e){
-			
+
 		}
 		database.open(checking);
 		openCloseOutput.appendText("Account opened.\n");
@@ -549,6 +564,67 @@ public class BankTellerController {
 	}
 
 	/**
+	 * Private method that executes an account opening
+	 *
+	 * The type of account is checked and opened accordingly
+	 */
+	private void executeOpen(Profile newProfile, String deposit){
+		if (openCloseChecking.isSelected()){
+			executeCommandCaseC(newProfile, deposit);
+		}else if (openCloseCollegeChecking.isSelected()){
+
+			int campusCode = INDEX_OF_NB;
+			if (openCloseCamden.isSelected()){
+				campusCode = INDEX_OF_CAMDEN;
+			}else if (openCloseNewark.isSelected()){
+				campusCode = INDEX_OF_NEWARK;
+			}
+
+			executeCommandCaseCC(newProfile, deposit, campusCode);
+
+		}else if (openCloseSavings.isSelected()){
+			int loyalty = NON_LOYAL;
+
+			if (openCloseLoyalCustomer.isSelected()){
+				loyalty = LOYAL;
+			}
+			executeCommandCaseS(newProfile, deposit, loyalty);
+
+		}else if (openCloseMoneyMarket.isSelected()){
+
+			openCloseLoyalCustomer.setSelected(true);
+			executeCommandCaseMM(newProfile, deposit);
+		}
+	}
+
+	/**
+	 * Private method that executes an account closing
+	 *
+	 * The type of account is checked and closed accordingly
+	 */
+	private void executeClose(Profile newProfile){
+		try {
+			Account acct = createAccount(newProfile, openCloseAccountType, 0);
+
+			if(database.findCertain(acct) != NOT_FOUND){
+
+				if(database.alreadyClosed(acct)){
+					database.close(acct);
+					openCloseOutput.appendText("Account is closed already.\n");
+				}else{
+					database.close(acct);
+					openCloseOutput.appendText("Account closed.\n");
+				}
+			}else{
+				accountNotFound(openCloseAccountType, openCloseOutput, newProfile);
+			}
+
+		} catch (Exception e) {
+			openCloseOutput.appendText("Missing data for closing an account.\n");
+		}
+	}
+
+	/**
 	 * Private method that attempts to Open or Close an Account
 	 *
 	 * If the command follows the proper formatting,
@@ -572,53 +648,12 @@ public class BankTellerController {
 				String deposit = openCloseInitialAccountAmount.getText();
 				if (openAccount.isSelected()){
 
-					if (openCloseChecking.isSelected()){
-						executeCommandCaseC(newProfile, deposit);
-					}else if (openCloseCollegeChecking.isSelected()){
+					executeOpen(newProfile, deposit);
 
-						int campusCode = INDEX_OF_NB;
-						if (openCloseCamden.isSelected()){
-							campusCode = INDEX_OF_CAMDEN;
-						}else if (openCloseNewark.isSelected()){
-							campusCode = INDEX_OF_NEWARK;
-						}
-
-						executeCommandCaseCC(newProfile, deposit, campusCode);
-
-					}else if (openCloseSavings.isSelected()){
-						int loyalty = NON_LOYAL;
-
-						if (openCloseLoyalCustomer.isSelected()){
-							loyalty = LOYAL;
-						}
-						executeCommandCaseS(newProfile, deposit, loyalty);
-
-					}else if (openCloseMoneyMarket.isSelected()){
-
-						openCloseLoyalCustomer.setSelected(true);
-						executeCommandCaseMM(newProfile, deposit);
-					}
 				}else if (closeAccount.isSelected()){
 
-					try {
-						Account acct = createAccount(newProfile, openCloseAccountType, 0);
+					executeClose(newProfile);
 
-						if(database.findCertain(acct) != NOT_FOUND){
-
-							if(database.alreadyClosed(acct)){
-								database.close(acct);
-								openCloseOutput.appendText("Account is closed already.\n");
-							}else{
-								database.close(acct);
-								openCloseOutput.appendText("Account closed.\n");
-							}
-						}else{
-							accountNotFound(openCloseAccountType, openCloseOutput, newProfile);
-						}
-
-					} catch (Exception e) {
-						openCloseOutput.appendText("Missing data for closing an account.\n");
-					}
 				} else {
 					openCloseOutput.appendText("Select open or close.\n");
 				}
@@ -637,6 +672,7 @@ public class BankTellerController {
 	 */
 	@FXML
 	protected void openAccountClicked() {
+		openAccount.setSelected(true);
 		openCloseInitialAccountAmount.setDisable(false);
 	}
 
@@ -647,6 +683,7 @@ public class BankTellerController {
 	 */
 	@FXML
 	protected void closeAccountClicked() {
+		closeAccount.setSelected(true);
 		openCloseInitialAccountAmount.setDisable(true);
 
 	}

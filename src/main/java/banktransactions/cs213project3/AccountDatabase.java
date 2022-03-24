@@ -111,10 +111,7 @@ public class AccountDatabase {
     public boolean alreadyClosed(Account acct){
         int index = find(acct);
 
-        if(accounts[index].closed){
-            return true;
-        }
-        return false;
+        return accounts[index].closed;
     }
 
     /**
@@ -308,9 +305,8 @@ public class AccountDatabase {
         for(int i = 0; i < numAcct; i++){
             DecimalFormat dformat = new DecimalFormat("#,##0.00");
             DecimalFormat dformat2 = new DecimalFormat("#,##0.00");
-            StringBuilder sb = new StringBuilder(accounts[i].toString());
-            sb.append("::fee $" + dformat.format(accounts[i].fee())
-                    + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest()));
+            String sb = accounts[i].toString() + "::fee $" + dformat.format(accounts[i].fee())
+                    + "::monthly interest $" + dformat2.format(accounts[i].monthlyInterest());
             outer.append(sb);
             outer.append("\n");
         }
