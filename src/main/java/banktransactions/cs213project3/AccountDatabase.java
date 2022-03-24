@@ -23,6 +23,7 @@ public class AccountDatabase {
      * The array is initialized to a size of 4 and the number of accounts to 0
      */
     public AccountDatabase(){
+
         this.accounts = new Account[4];
         this.numAcct = 0;
 
@@ -198,9 +199,8 @@ public class AccountDatabase {
      *
      * @param account Account object to be closed
      *
-     * @return True if account is successfully closed, false otherwise
      */
-    public boolean close(Account account) {
+    public void close(Account account) {
 
         if(find(account) != NOT_FOUND){
             int index = find(account);
@@ -209,10 +209,8 @@ public class AccountDatabase {
                 ((MoneyMarket) accounts[index]).withdrawCount = 0;
             }
             accounts[index].balance = 0;
-            return true;
         }
 
-        return false;
     }
 
     /**
@@ -284,7 +282,6 @@ public class AccountDatabase {
         }
 
         sb.append(print());
-
         sb.append("*end of list.\n");
         sb.append("\n");
         return sb.toString();

@@ -10,7 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
-
+/**
+ * Class that represents the GUI interface code functionality
+ *
+ * Included in this class are all the GUI's components and their corresponding functionality
+ *
+ * @author Mark Holleran, Abhitej Bokka
+ */
 public class BankTellerController {
 
 	public static final int LOYAL = 1;
@@ -27,7 +33,6 @@ public class BankTellerController {
 	public static final int INDEX_OF_CAMDEN = 2;
 	public static final int INDEX_OF_NEWARK = 1;
 	public static final int INDEX_OF_NB = 0;
-
 	@FXML
 	private TextArea accountDatabaseOutput;
 
@@ -164,7 +169,7 @@ public class BankTellerController {
 
 	/**
 	 * Private method that recalculates balances given fees and
-	 * monthlyInterst and displays all accounts in the Database Array
+	 * monthlyInterest and displays all accounts in the Database Array
 	 * in current ordering
 	 */
 	@FXML
@@ -416,7 +421,6 @@ public class BankTellerController {
 	/**
 	 * Attempts to open an account unless a duplicate is found
 	 *
-	 *
 	 * @param checking Account object to be opened in array
 	 * @param profile Profile used to print error message if already open
 	 * @param database AccountDatabase to access the array of accounts
@@ -461,8 +465,6 @@ public class BankTellerController {
 			}
 		}
 	}
-
-
 
 	/**
 	 * Private method for creating a College Checking Account object
