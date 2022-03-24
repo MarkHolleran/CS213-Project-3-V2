@@ -228,7 +228,6 @@ public class AccountDatabase {
             int index = find(account);
             accounts[index].deposit(account.balance);
         }
-        return;
     }
 
     /**

@@ -33,7 +33,7 @@
                                     <Label text="First Name" GridPane.halignment="CENTER" />
                                     <Label text="Last Name" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                                     <Label text="Date of Birth" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                                    <TextField fx:id="openClosefirstName" GridPane.columnIndex="1" />
+                                    <TextField fx:id="openCloseFirstName" GridPane.columnIndex="1" />
                                     <TextField fx:id="openCloseLastName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label text="Account Type" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
                                     <GridPane GridPane.columnIndex="1" GridPane.rowIndex="3">

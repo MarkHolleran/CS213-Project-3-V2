@@ -28,7 +28,6 @@ public class BankTellerController {
 	public static final int INDEX_OF_NEWARK = 1;
 	public static final int INDEX_OF_NB = 0;
 
-
 	@FXML
 	private TextArea accountDatabaseOutput;
 
@@ -87,7 +86,7 @@ public class BankTellerController {
 	private TextArea openCloseOutput;
 
 	@FXML
-	private TextField openClosefirstName;
+	private TextField openCloseFirstName;
 
 	@FXML
 	private RadioButton openCloseChecking;
@@ -518,10 +517,7 @@ public class BankTellerController {
 			openCloseOutput.appendText(balance);
 		}else{
 			Savings savings = new Savings(profile, deposit, loyaltyCode);
-			boolean attempt = false;
-			if(savings.closed){
-				attempt = true;
-			}
+
 			if(database.findAcct(savings) && database.getAccount(savings).getType().equals(savings.getType())){
 				attemptReopen(savings, profile, database);
 			}else{
@@ -560,7 +556,6 @@ public class BankTellerController {
 				attemptOpen(checking, profile, database);
 			}
 		}
-
 	}
 
 	/**
@@ -575,7 +570,7 @@ public class BankTellerController {
 		try{
 			String dbDate = openCloseDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid() || !validName(openClosefirstName.getText())
+			if(!newDate.isValid() || !validName(openCloseFirstName.getText())
 					|| !validName(openCloseLastName.getText())){
 				if(!newDate.isValid()){
 					openCloseOutput.appendText("Date of birth invalid.\n");
@@ -583,7 +578,7 @@ public class BankTellerController {
 					openCloseOutput.appendText("Please enter a valid name.\n");
 				}
 			}else{
-				Profile newProfile = new Profile(openClosefirstName.getText(), openCloseLastName.getText(), newDate);
+				Profile newProfile = new Profile(openCloseFirstName.getText(), openCloseLastName.getText(), newDate);
 				String deposit = openCloseInitialAccountAmount.getText();
 				if (openAccount.isSelected()){
 
@@ -720,7 +715,6 @@ public class BankTellerController {
 	@FXML
 	protected void openCloseMoneyMarketClicked() {
 
-
 		openCloseMoneyMarket.setSelected(true);
 		openCloseNB.setSelected(false);
 		openCloseCamden.setSelected(false);
@@ -741,7 +735,6 @@ public class BankTellerController {
 	 */
 	@FXML
 	protected void openCloseSavingsClicked() {
-
 		openCloseSavings.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);
 
@@ -755,5 +748,4 @@ public class BankTellerController {
 		openCloseLoyalCustomer.setDisable(false);
 
 	}
-
 }
