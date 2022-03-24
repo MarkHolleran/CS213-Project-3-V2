@@ -273,6 +273,9 @@ public class BankTellerController {
 
 	/**
 	 * Method that executes withdraw and sends message if funds are sufficient or not
+	 *
+	 * @param newProfile Profile of account to be withdrawn from
+	 * @param account Account to be withdrawn from
 	 */
 	private void executeWithdraw(Profile newProfile, Account account){
 		if(!database.findAcct(account)){
@@ -329,8 +332,11 @@ public class BankTellerController {
 	}
 
 	/**
-	 * Private method for notifying user that
-	 * a non-existent user was requested.
+	 *  Private method for notifying user that a non-existent user was requested.
+	 *
+	 * @param type Indicates which radiobutton account type selection was made when creating an account
+	 * @param area textArea for text output
+	 * @param newProfile Profile to be output along with its type to notify user of it's absence from the database
 	 */
 	private void accountNotFound(ToggleGroup type, TextArea area, Profile newProfile){
 		if (type.getToggles().get(INDEX_OF_CHECKING).isSelected()){
@@ -346,6 +352,9 @@ public class BankTellerController {
 
 	/**
 	 * Method that executes withdraw and sends message if funds are sufficient or not
+	 *
+	 * @param newProfile profile to create new account if it already doesn't exist
+	 * @param account account to create an account if it already doesn't exist
 	 */
 	private void executeDeposit(Profile newProfile, Account account){
 		if(!database.findAcct(account)){
@@ -565,8 +574,10 @@ public class BankTellerController {
 
 	/**
 	 * Private method that executes an account opening
-	 *
 	 * The type of account is checked and opened accordingly
+	 *
+	 * @param newProfile Profile to be added to database
+	 * @param deposit Amount to be added to newly created account
 	 */
 	private void executeOpen(Profile newProfile, String deposit){
 		if (openCloseChecking.isSelected()){

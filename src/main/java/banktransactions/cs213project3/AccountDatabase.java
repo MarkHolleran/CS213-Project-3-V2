@@ -250,6 +250,8 @@ public class AccountDatabase {
 
     /**
      * Prints each Account object within the array
+     *
+     * @return String containing each Account object
      */
     public String print() {
         StringBuilder sb = new StringBuilder();
@@ -262,6 +264,8 @@ public class AccountDatabase {
 
     /**
      * Prints each Account object within an array in order of Account type
+     *
+     * @return String containing each Account ordered by account type
      */
     public String printByAccountType() {
         StringBuilder sb = new StringBuilder();
@@ -297,6 +301,9 @@ public class AccountDatabase {
 
     /**
      * Prints each Account object in the array after fees are subtracted from the balance
+     *
+     * @return String containing all accounts within the database with modified balances
+     * to reflect the addition of fees and interest
      */
     public String printFeeAndInterest() {
 

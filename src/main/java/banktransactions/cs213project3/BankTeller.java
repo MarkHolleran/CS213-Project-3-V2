@@ -141,12 +141,13 @@ public class BankTeller {
 
     /**
      * Method that constructs a Profile Object
-     *
      * Takes in a StringTokenizer containing the
      * first name, last name, and date of birth
      * and constructs a Profile object
-     *
+
      * @param segmentedInput String Tokenizer from user input
+     *
+     * @return Profile containing information from input
      */
     private Profile createProfile(StringTokenizer segmentedInput){
         String fName = segmentedInput.nextToken();
