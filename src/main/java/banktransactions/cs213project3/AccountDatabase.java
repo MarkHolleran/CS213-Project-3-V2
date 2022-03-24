@@ -18,8 +18,6 @@ public class AccountDatabase {
     private Account[] accounts;
     private int numAcct;
 
-    int[] cheese = new int[23];
-
     /**
      * Default constructor that constructs an Array of type Account objects
      * The array is initialized to a size of 4 and the number of accounts to 0

@@ -2,7 +2,6 @@ package banktransactions.cs213project3;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -116,7 +115,7 @@ public class BankTellerController {
 	 * in current ordering
 	 */
 	@FXML
-	void printAllAccounts() {
+	protected void printAllAccounts() {
 		StringBuilder sb = new StringBuilder();
 		if(database.getNumAcct()==0){
 			sb.append("Account Database is empty!\n");
@@ -135,7 +134,7 @@ public class BankTellerController {
 	 * based on the type of account
 	 */
 	@FXML
-	void printAccountsByType(ActionEvent event) {
+	protected void printAccountsByType() {
 
 		StringBuilder sb = new StringBuilder();
 		if(database.getNumAcct()==0){
@@ -153,7 +152,7 @@ public class BankTellerController {
 	 * in current ordering with fees and monthlyInterest
 	 */
 	@FXML
-	void calculateFeesAndInterest() {
+	protected void calculateFeesAndInterest() {
 		StringBuilder sb = new StringBuilder();
 		if(database.getNumAcct()==0){
 			sb.append("Account Database is empty!\n");
@@ -171,7 +170,7 @@ public class BankTellerController {
 	 * in current ordering
 	 */
 	@FXML
-	void applyFeesAndInterest(ActionEvent event) {
+	protected void applyFeesAndInterest() {
 		StringBuilder sb = new StringBuilder();
 		if(database.getNumAcct()==0){
 			sb.append("Account Database is empty!\n");
@@ -287,7 +286,7 @@ public class BankTellerController {
 	 * If any data is improperly formatted, the respective error is given
 	 */
 	@FXML
-	void withdrawAmount() {
+	protected void withdrawAmount() {
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
@@ -352,7 +351,7 @@ public class BankTellerController {
 	 * If any data is improperly formatted, the respective error is given
 	 */
 	@FXML
-	void depositAmount(ActionEvent event) {
+	protected void depositAmount(ActionEvent event) {
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
@@ -425,7 +424,6 @@ public class BankTellerController {
 	 * @param database AccountDatabase to access the array of accounts
 	 */
 	private void attemptOpen(Account checking, Profile profile, AccountDatabase database){
-		StringBuilder sb = new StringBuilder();
 		try{
 			if(database.duplicateAccount(checking)){
 				openCloseOutput.appendText(profile.toString()+ " same account(type) is in the database.\n");
@@ -574,7 +572,7 @@ public class BankTellerController {
 	 * commands of different account type.
 	 */
 	@FXML
-	void openCloseAccount() {
+	protected void openCloseAccount() {
 		try{
 			String dbDate = openCloseDob.getValue().toString();
 			Date newDate = new Date(dbDate);
@@ -650,20 +648,34 @@ public class BankTellerController {
 
 
 
+	/**
+	 * Method that allows users to only select either open or close
+	 *
+	 * Method to help keep buttons disabled to reduce potential errors from user input
+	 */
 	@FXML
-	void openAccountClicked(MouseEvent event) {
+	protected void openAccountClicked(MouseEvent event) {
 		openCloseInitialAccountAmount.setDisable(false);
-
 	}
 
+	/**
+	 * Method that allows users to only select either open or close
+	 *
+	 * Method to help keep buttons disabled to reduce potential errors from user input
+	 */
 	@FXML
-	void closeAccountClicked(MouseEvent event) {
+	protected void closeAccountClicked(MouseEvent event) {
 		openCloseInitialAccountAmount.setDisable(true);
 
 	}
 
+	/**
+	 * Method that allows users to select only Checking Account
+	 *
+	 * Helps disable buttons like loyalty or campus that are unnecessary
+	 */
 	@FXML
-	void openCloseCheckingClicked(MouseEvent event) {
+	protected void openCloseCheckingClicked(MouseEvent event) {
 		openCloseChecking.setSelected(true);
 
 		openCloseLoyalCustomer.setSelected(false);
@@ -680,8 +692,13 @@ public class BankTellerController {
 
 	}
 
+	/**
+	 * Method that allows users to select only College Checking Account
+	 *
+	 * Helps disable buttons like loyalty that are unnecessary
+	 */
 	@FXML
-	void openCloseCollegeCheckingClicked(MouseEvent event) {
+	protected void openCloseCollegeCheckingClicked(MouseEvent event) {
 
 		openCloseCollegeChecking.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);
@@ -696,8 +713,13 @@ public class BankTellerController {
 
 	}
 
+	/**
+	 * Method that allows users to select only Money Market Account
+	 *
+	 * Helps disable buttons like campus that are unnecessary and keeps loyalty selected
+	 */
 	@FXML
-	void openCloseMoneyMarketClicked(MouseEvent event) {
+	protected void openCloseMoneyMarketClicked(MouseEvent event) {
 
 
 		openCloseMoneyMarket.setSelected(true);
@@ -713,8 +735,13 @@ public class BankTellerController {
 
 	}
 
+	/**
+	 * Method that allows users to select only Savings Account
+	 *
+	 * Helps disable buttons like campus that are unnecessary and allows us to use loyalty
+	 */
 	@FXML
-	void openCloseSavingsClicked(MouseEvent event) {
+	protected void openCloseSavingsClicked(MouseEvent event) {
 
 		openCloseSavings.setSelected(true);
 		openCloseLoyalCustomer.setSelected(false);
