@@ -1,6 +1,5 @@
 package banktransactions.cs213project3;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
@@ -8,7 +7,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 
 /**
  * Class that represents the GUI interface code functionality
@@ -37,9 +35,6 @@ public class BankTellerController {
 	private TextArea accountDatabaseOutput;
 
 	@FXML
-	private HBox cheese;
-
-	@FXML
 	private ToggleGroup depositWithdrawAccountType;
 
 	@FXML
@@ -61,13 +56,7 @@ public class BankTellerController {
 	private ToggleGroup openCloseAccountType;
 
 	@FXML
-	private ToggleGroup openCloseRadioButtons;
-
-	@FXML
 	private RadioButton openCloseCamden;
-
-	@FXML
-	private ToggleGroup openCloseCampus;
 
 	@FXML
 	private DatePicker openCloseDob;
@@ -279,7 +268,7 @@ public class BankTellerController {
 	 * @return boolean value indicating whether name is valid or not
 	 */
 	private boolean validName(String name){
-		return name.matches( "[a-zA-Z]+([ '-][a-zA-Z]+)*" );
+		return !name.matches("[a-zA-Z]+([ '-][a-zA-Z]+)*");
 	}
 
 	/**
@@ -293,8 +282,8 @@ public class BankTellerController {
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid() || !validName(depositWithdrawFirstName.getText())
-					|| !validName(depositWithdrawLastName.getText())){
+			if(!newDate.isValid() || validName(depositWithdrawFirstName.getText())
+					|| validName(depositWithdrawLastName.getText())){
 				if(!newDate.isValid()){
 					depositWithdrawOutput.appendText("Date of birth invalid.\n");
 				}else{
@@ -306,7 +295,6 @@ public class BankTellerController {
 				if(!database.findAcct(account)){
 					accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
 				}else{
-					boolean initialDeposit = false;
 					String balance = validWithdraw(depositWithdrawAmount.getText());
 					boolean isDouble = true;
 					double deposit = 0;
@@ -354,12 +342,12 @@ public class BankTellerController {
 	 * If any data is improperly formatted, the respective error is given
 	 */
 	@FXML
-	protected void depositAmount(ActionEvent event) {
+	protected void depositAmount() {
 		try{
 			String dbDate = depositWithdrawDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid() || !validName(depositWithdrawFirstName.getText())
-					|| !validName(depositWithdrawLastName.getText())){
+			if(!newDate.isValid() || validName(depositWithdrawFirstName.getText())
+					|| validName(depositWithdrawLastName.getText())){
 				if(!newDate.isValid()){
 					depositWithdrawOutput.appendText("Date of birth invalid.\n");
 				}else{
@@ -432,7 +420,7 @@ public class BankTellerController {
 				return;
 			}
 		}catch(Exception e){
-
+			
 		}
 		database.open(checking);
 		openCloseOutput.appendText("Account opened.\n");
@@ -572,8 +560,8 @@ public class BankTellerController {
 		try{
 			String dbDate = openCloseDob.getValue().toString();
 			Date newDate = new Date(dbDate);
-			if(!newDate.isValid() || !validName(openCloseFirstName.getText())
-					|| !validName(openCloseLastName.getText())){
+			if(!newDate.isValid() || validName(openCloseFirstName.getText())
+					|| validName(openCloseLastName.getText())){
 				if(!newDate.isValid()){
 					openCloseOutput.appendText("Date of birth invalid.\n");
 				}else{
@@ -588,18 +576,17 @@ public class BankTellerController {
 						executeCommandCaseC(newProfile, deposit);
 					}else if (openCloseCollegeChecking.isSelected()){
 
-						int campusCode = 0;
+						int campusCode = INDEX_OF_NB;
 						if (openCloseCamden.isSelected()){
 							campusCode = INDEX_OF_CAMDEN;
 						}else if (openCloseNewark.isSelected()){
 							campusCode = INDEX_OF_NEWARK;
-						}else if (openCloseNB.isSelected()){
-							campusCode = INDEX_OF_NB;
 						}
+
 						executeCommandCaseCC(newProfile, deposit, campusCode);
 
 					}else if (openCloseSavings.isSelected()){
-						int loyalty = NON_LOYAL;;
+						int loyalty = NON_LOYAL;
 
 						if (openCloseLoyalCustomer.isSelected()){
 							loyalty = LOYAL;
@@ -617,7 +604,6 @@ public class BankTellerController {
 						Account acct = createAccount(newProfile, openCloseAccountType, 0);
 
 						if(database.findCertain(acct) != NOT_FOUND){
-							int index = database.findCertain(acct);
 
 							if(database.alreadyClosed(acct)){
 								database.close(acct);
