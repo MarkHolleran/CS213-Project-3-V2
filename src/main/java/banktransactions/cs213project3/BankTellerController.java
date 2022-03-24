@@ -286,7 +286,9 @@ public class BankTellerController {
 	private void executeWithdraw(Profile newProfile, Account account){
 		if(!database.findAcct(account)){
 			accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
-		}else{
+		}else if(database.alreadyClosed(account)){
+			depositWithdrawOutput.appendText("Account is closed.\n");
+		}else {
 			String balance = validWithdraw(depositWithdrawAmount.getText());
 			boolean isDouble = true;
 			double deposit = 0;
@@ -366,7 +368,9 @@ public class BankTellerController {
 		if(!database.findAcct(account)){
 			accountNotFound(depositWithdrawAccountType, depositWithdrawOutput, newProfile);
 
-		}else{
+		}else if(database.alreadyClosed(account)){
+			depositWithdrawOutput.appendText("Account is closed.\n");
+		}else {
 			boolean initialDeposit = false;
 			String balance = validDeposit(depositWithdrawAmount.getText(), initialDeposit);
 			boolean isDouble = true;
@@ -422,7 +426,7 @@ public class BankTellerController {
 	 *
 	 *
 	 * @param checking Account object to be opened in array
-	 * @param profile Profile used to print eror message if already open
+	 * @param profile Profile used to print error message if already open
 	 * @param database AccountDatabase to access the array of accounts
 	 */
 	private void attemptReopen(Account checking, Profile profile, AccountDatabase database){
