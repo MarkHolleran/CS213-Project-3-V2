@@ -39,15 +39,10 @@ public class MoneyMarket extends Savings {
         if(balance >= BALANCE_IF_WAIVED){
 
             loyalCustomer = 1;
-
         }else{
-
             loyalCustomer = 0;
-
         }
-
         super.closed = false;
-
     }
 
     /**
@@ -82,7 +77,6 @@ public class MoneyMarket extends Savings {
         if(newTotal >= BALANCE_IF_WAIVED){
             loyalCustomer = 1;
         }
-
         return newTotal;
     }
 
@@ -95,15 +89,12 @@ public class MoneyMarket extends Savings {
     public void withdraw(double amount){
 
         super.withdraw(amount);
-
         withdrawCount++;
 
         if (this.balance < BALANCE_IF_WAIVED){
 
             loyalCustomer = 0;
-
         }
-
     }
 
     /**
@@ -112,9 +103,7 @@ public class MoneyMarket extends Savings {
      * @param amount Amount to be added to account balance
      */
     public void deposit (double amount){
-
         super.deposit(amount);
-
     }
 
     /**
@@ -128,15 +117,11 @@ public class MoneyMarket extends Savings {
     public double fee(){
 
         if (withdrawCount < MAX_WITHDRAW_LIMIT && balance >= BALANCE_IF_WAIVED){
-        // wording is confusing here
+
             return NO_FEE;
-
         }else {
-
             return MONTHLY_FEE;
-
         }
-
     }
 
     /**
@@ -145,9 +130,7 @@ public class MoneyMarket extends Savings {
      * @return String representing the type of account
      */
     public String getType(){
-
         return ACCOUNT_TYPE;
-
     }
 
     /**
@@ -161,14 +144,11 @@ public class MoneyMarket extends Savings {
 
         if(super.toString().contains("::Loyal") && loyalCustomer == 0){
             sb.delete(sb.length()-loyalDeleteString,sb.length());
-
         }else{
             return super.toString() + "::withdrawl: " + withdrawCount;
         }
-
         sb.append("::withdrawl: " + withdrawCount);
         return sb.toString();
-
     }
 
 }

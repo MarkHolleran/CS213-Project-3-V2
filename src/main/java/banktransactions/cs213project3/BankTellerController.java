@@ -102,6 +102,9 @@ public class BankTellerController {
 
 	AccountDatabase database = new AccountDatabase();
 
+	public BankTellerController() {
+	}
+
 	/**
 	 * Private method that displays all accounts in the Database Array
 	 * in current ordering

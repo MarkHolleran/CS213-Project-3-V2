@@ -36,7 +36,6 @@ public class Savings extends Account {
         super.closed = false;
         super.deposit(balance);
         this.loyalCustomer = loyalCustomer;
-
     }
 
     /**
@@ -60,14 +59,11 @@ public class Savings extends Account {
      */
     @Override
     public String toString(){
+
         if (loyalCustomer == 1 && !super.toString().contains("CLOSED")) {
-
             return super.toString() + "::Loyal";
-
         }else
-
             return super.toString();
-
     }
 
     /**
@@ -79,18 +75,11 @@ public class Savings extends Account {
      */
     public double monthlyInterest(){
 
-        //doesn't protect against out of bounds ints
-
         if (loyalCustomer == 0) {
-
             return this.balance * NONINTEREST_RATE_PERCENTAGE/MONTHS_IN_A_YEAR;
-
         }else {
-
             return this.balance * LOYALINTEREST_RATE_PERCENTAGE/MONTHS_IN_A_YEAR;
-
         }
-
     }
 
     /**
@@ -104,15 +93,11 @@ public class Savings extends Account {
     public double fee(){
 
         if(this.balance>=BALANCE_IF_WAIVED){
-
             return NO_FEE;
-
         }else{
-
             return MONTHLY_SAVINGS_FEE;
 
         }
-
     }
 
     /**
@@ -124,9 +109,7 @@ public class Savings extends Account {
      * @param amount Amount to be withdrawn from account balance
      */
     public void withdraw(double amount){
-
         super.withdraw(amount);
-
     }
 
     /**
@@ -138,9 +121,7 @@ public class Savings extends Account {
      * @param amount Amount to be added to account balance
      */
     public void deposit(double amount){
-
         super.deposit(amount);
-
     }
 
     /**
@@ -149,9 +130,7 @@ public class Savings extends Account {
      * @return String representing Account type
      */
     public String getType(){
-
         return ACCOUNT_TYPE;
-
     }
 
 }

@@ -12,15 +12,11 @@ package banktransactions.cs213project3;
  */
 public class CollegeChecking extends Checking {
 
-    //public final double NO_FEE = 0;
     public final double MONTHLY_FEE = 0;
     public final double ADDITONAL_INTEREST_RATE_PERCENTAGE = .15/100;
     public static final double MONTHS_IN_A_YEAR = 12;
     public final int CAMPUS_ZERO = 0;
     public final int CAMPUS_ONE = 1;
-    public final int CAMPUS_TWO = 2;
-
-
     public final String ACCOUNT_TYPE = "College Checking";
     private int campusCode;
 
@@ -33,11 +29,8 @@ public class CollegeChecking extends Checking {
      * @param campusCode Representing which campus
      */
     public CollegeChecking(Profile profile, double balance, int campusCode){
-
         super(profile, balance);
-
         this.campusCode = campusCode;
-
     }
 
     /**
@@ -59,9 +52,7 @@ public class CollegeChecking extends Checking {
      * @return Balance of an Account object with the monthly interest added to the balance
      */
     public double monthlyInterest(){
-
         return super.monthlyInterest() + this.balance * ADDITONAL_INTEREST_RATE_PERCENTAGE/MONTHS_IN_A_YEAR;
-
     }
 
     /**
@@ -70,9 +61,7 @@ public class CollegeChecking extends Checking {
      * @param amount Amount to add to the balance of a College Checking Account object
      */
     public void deposit(double amount){
-
        super.deposit(amount);
-
     }
 
     /**
@@ -81,9 +70,7 @@ public class CollegeChecking extends Checking {
      * @param amount Amount to subtract from the balance of an Account object
      */
     public void withdraw(double amount){
-
         super.withdraw(amount);
-
     }
 
     /**
@@ -92,9 +79,7 @@ public class CollegeChecking extends Checking {
      * @return String containing the type of Account
      */
     public String getType(){
-
         return ACCOUNT_TYPE;
-
     }
 
     /**
@@ -103,9 +88,7 @@ public class CollegeChecking extends Checking {
      * @return Double representing the fee to hold a College Checking Account
      */
     public double fee() {
-
         return MONTHLY_FEE;
-
     }
 
     /**
@@ -118,17 +101,10 @@ public class CollegeChecking extends Checking {
     public String toString(){
 
         if (campusCode == CAMPUS_ZERO) {
-
             return super.toString() + "::" + "NEW_BRUNSWICK";
-
         }else if (campusCode == CAMPUS_ONE){
-
             return super.toString() + "::" + "NEWARK";
-
         }else
-
             return super.toString() + "::" + "CAMDEN";
-
     }
-
 }

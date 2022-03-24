@@ -26,7 +26,6 @@ public class AccountDatabase {
 
         this.accounts = new Account[4];
         this.numAcct = 0;
-
     }
 
     /**
@@ -110,7 +109,6 @@ public class AccountDatabase {
      */
     public boolean alreadyClosed(Account acct){
         int index = find(acct);
-
         return accounts[index].closed;
     }
 

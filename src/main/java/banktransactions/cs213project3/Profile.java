@@ -43,7 +43,6 @@ public class Profile {
         return (this.fname.toLowerCase().equals(compareProfile.fname.toLowerCase())
                 && this.lname.toLowerCase().equals(compareProfile.lname.toLowerCase())
                 && this.dob.compareTo(compareProfile.dob) == 0);
-
     }
 
     /**
@@ -54,9 +53,7 @@ public class Profile {
      * @return String representation of Profile object
      */
     public String toString(){
-
         return this.fname + " " + this.lname + " " + this.dob.toString();
-
     }
 
 }

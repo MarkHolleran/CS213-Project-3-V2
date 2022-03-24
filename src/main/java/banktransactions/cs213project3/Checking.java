@@ -22,13 +22,9 @@ public class Checking extends Account {
      * @param balance Specified amount to initialize the Checking account with
      */
     public Checking(Profile profile, double balance){
-
         super.holder = profile;
-
         super.closed = false;
-
         super.deposit(balance);
-
     }
 
     /**
@@ -51,9 +47,7 @@ public class Checking extends Account {
      * @return Double representing the balance of a Checking account after monthly interest is added
      */
     public double monthlyInterest(){
-
         return this.balance*INTEREST_RATE_PERCENTAGE/MONTHS_IN_A_YEAR;
-
     }
 
     /**
@@ -66,15 +60,10 @@ public class Checking extends Account {
     public double fee(){
 
         if(this.balance>=BALANCE_IF_WAIVED){
-
             return 0;
-
         }else{
-
             return MONTHLY_FEE;
-
         }
-
     }
 
     /**
@@ -83,9 +72,7 @@ public class Checking extends Account {
      * @param amount Amount to be withdrawn from an account's balance
      */
     public void withdraw(double amount){
-
         super.withdraw(amount);
-
     }
 
     /**
@@ -94,9 +81,7 @@ public class Checking extends Account {
      * @param amount Amount to be added to an account's balance
      */
     public void deposit(double amount){
-
         super.deposit(amount);
-
     }
 
     /**
@@ -105,9 +90,7 @@ public class Checking extends Account {
      * @return String representing the type of account
      */
     public String getType(){
-
         return ACCOUNT_TYPE;
-
     }
 
 }

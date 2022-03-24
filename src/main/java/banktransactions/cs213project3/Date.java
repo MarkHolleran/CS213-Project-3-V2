@@ -73,9 +73,7 @@ import java.util.Calendar;
             String dateFromInput = date;
 
             this.day = Integer.parseInt(dateFromInput.substring(dateFromInput.lastIndexOf("-")+1, dateFromInput.length()));
-
             this.month = Integer.parseInt(dateFromInput.substring(dateFromInput.indexOf("-")+1,dateFromInput.lastIndexOf("-")));
-
             this.year = Integer.parseInt(dateFromInput.substring(0, dateFromInput.indexOf("-")));
 
         }
@@ -86,9 +84,7 @@ import java.util.Calendar;
          * @return Integer value representing Day
          */
         public int getDay(){
-
             return this.day;
-
         }
 
         /**
@@ -97,9 +93,7 @@ import java.util.Calendar;
          * @return Integer value representing Year
          */
         public int getYear(){
-
             return this.year;
-
         }
 
         /**
@@ -108,9 +102,7 @@ import java.util.Calendar;
          * @return Integer value representing Month
          */
         public int getMonth(){
-
             return this.month;
-
         }
 
         /**
@@ -119,9 +111,7 @@ import java.util.Calendar;
          * @return String representation of Date object
          */
         public String toString(){
-
             return getMonth()+"/"+getDay()+"/"+getYear();
-
         }
 
         /**
@@ -199,7 +189,6 @@ import java.util.Calendar;
                         dayValid = false;
 
                     }
-
                 }
 
                 if (month >= currentDate.getMonth() & day >= currentDate.getDay() && year >= currentDate.getYear()){
@@ -210,6 +199,7 @@ import java.util.Calendar;
                 }
 
                 return(monthValid && yearValid && dayValid);
+
             }catch(Exception e){
                 return false;
             }
@@ -233,20 +223,15 @@ import java.util.Calendar;
                 if (isYearValid % leapYearSecondCheckMod == 0) {
 
                     if (isYearValid % leapYearThirdCheckMod == 0) {
-
                         return true;
 
                     } else {
-
                         return false;
                     }
-
                 } else {
-
                     return true;
                 }
             } else {
-
                 return false;
             }
         }
@@ -277,44 +262,26 @@ import java.util.Calendar;
             int yearCompare = date.year;
 
             if (year > yearCompare) {
-
                 return 1;
-
             } else if (year == yearCompare) {
-
                 if (month > monthCompare) {
-
                     return 1;
-
                 } else if (month == monthCompare) {
-
                     if (day > dayCompare) {
-
                         return 1;
-
                     } else if (day < dayCompare) {
-
                         return -1;
-
                     } else if (day == dayCompare) {
-
                         return 0;
                     }
                 } else if (month < monthCompare) {
-
                     return -1;
                 }
-
                 return -1;
-
             } else if (year < yearCompare) {
-
                 return -1;
-
             }
-
             return 0;
-
         }
 
     }

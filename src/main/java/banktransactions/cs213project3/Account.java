@@ -39,7 +39,6 @@ public abstract class Account {
 
             return this.holder.equals(acct.holder);
         }
-
         return false;
     }
 
@@ -53,15 +52,11 @@ public abstract class Account {
 
         DecimalFormat dformat = new DecimalFormat("#,##0.00");
 
-
         StringBuilder sb = new StringBuilder(getType() + "::" + holder.toString() + "::Balance $" + dformat.format(balance));
 
         if (closed) {
-
             sb.append("::CLOSED");
-
         }
-
         return sb.toString();
     }
 
@@ -73,7 +68,6 @@ public abstract class Account {
      * @param amount Amount to be withdrawn from an account's balance
      */
     public void withdraw(double amount) {
-
         balance -= amount;
     }
 
@@ -86,9 +80,7 @@ public abstract class Account {
      * @param amount Amount to be added to an account's balance
      */
     public void deposit(double amount) {
-
         balance += amount;
-
     }
 
     /**
@@ -97,9 +89,7 @@ public abstract class Account {
      * @return Profile object containing first name, last name, and dob
      */
     public Profile getProfile(){
-
         return holder;
-
     }
 
     /**
